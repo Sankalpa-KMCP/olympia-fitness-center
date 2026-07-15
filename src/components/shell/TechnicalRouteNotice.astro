@@ -1,0 +1,71 @@
+---
+import Container from "../primitives/Container.astro";
+import Section from "../primitives/Section.astro";
+
+interface Props {
+  heading: string;
+  message: string;
+  label?: string;
+}
+
+const {
+  heading,
+  message,
+  label = "Development-stage route / S4",
+}: Props = Astro.props;
+---
+
+<Section class="technical-route">
+  <Container size="prose">
+    <div class="technical-route__content u-flow">
+      <p class="technical-route__label">{label}</p>
+      <h1>{heading}</h1>
+      <p class="technical-route__message">{message}</p>
+      <slot />
+    </div>
+  </Container>
+</Section>
+
+<style>
+  .technical-route {
+    display: grid;
+    min-block-size: clamp(24rem, 55vh, 36rem);
+    align-items: center;
+  }
+
+  .technical-route__content {
+    position: relative;
+    padding: var(--space-10);
+    border: var(--border-thin) solid var(--color-border);
+    border-radius: var(--radius-xl);
+    background: var(--color-surface);
+    box-shadow: var(--shadow-md);
+    overflow: hidden;
+  }
+
+  .technical-route__content::after {
+    position: absolute;
+    inset-block-start: -4rem;
+    inset-inline-end: -4rem;
+    inline-size: 12rem;
+    block-size: 12rem;
+    border-radius: 50%;
+    background: var(--color-accent);
+    content: "";
+    opacity: 0.08;
+  }
+
+  .technical-route__label {
+    color: var(--color-text-muted);
+    font-family: var(--font-mono);
+    font-size: var(--text-xs);
+    font-weight: 700;
+    letter-spacing: var(--tracking-label);
+    text-transform: uppercase;
+  }
+
+  .technical-route__message {
+    color: var(--color-text-muted);
+    font-size: var(--text-lead);
+  }
+</style>

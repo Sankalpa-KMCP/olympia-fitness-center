@@ -1,0 +1,24 @@
+---
+import ButtonLink from "../components/primitives/ButtonLink.astro";
+import TechnicalRouteNotice from "../components/shell/TechnicalRouteNotice.astro";
+import { siteRoutes } from "../config/routes";
+import BaseLayout from "../layouts/BaseLayout.astro";
+
+const route = siteRoutes.notFound;
+---
+
+<BaseLayout
+  title="Page not found"
+  description="The requested website route could not be found."
+  currentPath={route.path}
+  indexing="noindex"
+  includeLocalBusinessStructuredData={false}
+>
+  <TechnicalRouteNotice
+    label="Error route / 404"
+    heading="Page not found."
+    message="The requested route does not exist. Use the recovery link to return to the homepage."
+  >
+    <ButtonLink href={siteRoutes.home.path}>Return to homepage</ButtonLink>
+  </TechnicalRouteNotice>
+</BaseLayout>

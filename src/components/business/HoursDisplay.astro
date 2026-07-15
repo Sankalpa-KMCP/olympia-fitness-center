@@ -1,0 +1,117 @@
+---
+import { poyaHoursNotice, regularOpeningHours } from "../../data/business";
+import {
+  formatDayGroup,
+  formatLocalTime,
+} from "../../utils/business-formatting";
+
+type HeadingLevel = "h2" | "h3";
+
+interface Props {
+  headingLevel?: HeadingLevel;
+}
+
+const { headingLevel: Heading = "h2" }: Props = Astro.props;
+---
+
+<div class="hours-display">
+  <Heading>Opening hours</Heading>
+  <dl>
+    {
+      regularOpeningHours.map((group) => (
+        <div class="hours-display__group">
+          <dt>{formatDayGroup(group.days)}</dt>
+          <dd>
+            <ul>
+              {group.periods.map((period) => (
+                <li>
+                  <time datetime={period.opens}>
+                    {formatLocalTime(period.opens)}
+                  </time>
+                  <span aria-hidden="true">–</span>
+                  <span class="u-sr-only"> to </span>
+                  <time datetime={period.closes}>
+                    {formatLocalTime(period.closes)}
+                  </time>
+                </li>
+              ))}
+            </ul>
+          </dd>
+        </div>
+      ))
+    }
+
+    <div class="hours-display__group hours-display__group--special">
+      <dt>{poyaHoursNotice.label}</dt>
+      <dd>
+        <ul>
+          {
+            poyaHoursNotice.periods.map((period) => (
+              <li>
+                <time datetime={period.opens}>
+                  {formatLocalTime(period.opens)}
+                </time>
+                <span aria-hidden="true">–</span>
+                <span class="u-sr-only"> to </span>
+                <time datetime={period.closes}>
+                  {formatLocalTime(period.closes)}
+                </time>
+              </li>
+            ))
+          }
+        </ul>
+      </dd>
+    </div>
+  </dl>
+</div>
+
+<style>
+  .hours-display h2,
+  .hours-display h3 {
+    font-family: var(--font-display);
+    font-size: var(--text-heading-sm);
+    letter-spacing: var(--tracking-tight);
+  }
+
+  .hours-display dl {
+    display: grid;
+    margin-block-start: var(--space-4);
+    gap: var(--space-3);
+  }
+
+  .hours-display__group {
+    display: grid;
+    padding-block: var(--space-3);
+    border-block-end: var(--border-thin) solid var(--color-border);
+    gap: var(--space-2);
+  }
+
+  .hours-display dt {
+    color: var(--color-text-muted);
+    font-size: var(--text-sm);
+    font-weight: 700;
+  }
+
+  .hours-display dd,
+  .hours-display ul {
+    padding: 0;
+  }
+
+  .hours-display ul {
+    display: grid;
+    gap: var(--space-1);
+    list-style: none;
+  }
+
+  .hours-display li {
+    max-inline-size: none;
+    color: var(--color-text);
+    font-size: var(--text-sm);
+    white-space: nowrap;
+  }
+
+  .hours-display__group--special {
+    padding-block-start: var(--space-3);
+    border-block-start: 0;
+  }
+</style>

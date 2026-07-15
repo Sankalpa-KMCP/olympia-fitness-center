@@ -1,0 +1,57 @@
+---
+import { primaryContact } from "../../data/business";
+import { createMailtoHref, createTelHref } from "../../utils/contact-links";
+
+const telephoneHref = createTelHref(primaryContact.phone.international);
+const emailHref = createMailtoHref(primaryContact.email);
+---
+
+<ul class="contact-actions" aria-label="Contact options">
+  <li>
+    <a href={telephoneHref}>
+      <span>Call</span>
+      <strong>{primaryContact.phone.display}</strong>
+    </a>
+  </li>
+  <li>
+    <a class="u-wrap-anywhere" href={emailHref}>
+      <span>Email</span>
+      <strong>{primaryContact.email}</strong>
+    </a>
+  </li>
+</ul>
+
+<style>
+  .contact-actions {
+    display: grid;
+    padding: 0;
+    gap: var(--space-2);
+    list-style: none;
+  }
+
+  .contact-actions a {
+    display: grid;
+    min-block-size: var(--target-min);
+    padding-block: var(--space-2);
+    color: var(--color-text);
+    gap: var(--space-1);
+    text-decoration: none;
+  }
+
+  .contact-actions a:hover strong {
+    color: var(--color-accent-hover);
+  }
+
+  .contact-actions span {
+    color: var(--color-text-muted);
+    font-family: var(--font-mono);
+    font-size: var(--text-xs);
+    letter-spacing: var(--tracking-label);
+    text-transform: uppercase;
+  }
+
+  .contact-actions strong {
+    color: var(--color-accent);
+    font-size: var(--text-sm);
+  }
+</style>

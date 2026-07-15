@@ -1,0 +1,107 @@
+<script>
+  const root = document.documentElement;
+  const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
+
+  const navigationRoots =
+    document.querySelectorAll<HTMLElement>("[data-primary-nav]");
+
+  for (const navigation of navigationRoots) {
+    if (navigation.dataset.initialized === "true") {
+      continue;
+    }
+
+    const toggle =
+      navigation.querySelector<HTMLButtonElement>("[data-nav-toggle]");
+    const list = navigation.querySelector<HTMLElement>("[data-nav-list]");
+
+    if (!toggle || !list) {
+      continue;
+    }
+
+    const setOpen = (open: boolean) => {
+      navigation.dataset.open = String(open);
+      toggle.setAttribute("aria-expanded", String(open));
+    };
+
+    navigation.dataset.initialized = "true";
+    navigation.dataset.enhanced = "true";
+    toggle.hidden = false;
+    setOpen(false);
+
+    toggle.addEventListener("click", () => {
+      setOpen(navigation.dataset.open !== "true");
+    });
+
+    navigation.addEventListener("keydown", (event) => {
+      if (event.key === "Escape" && navigation.dataset.open === "true") {
+        setOpen(false);
+        toggle.focus();
+      }
+    });
+
+    for (const link of list.querySelectorAll("a")) {
+      link.addEventListener("click", () => setOpen(false));
+    }
+
+    const desktopQuery = window.matchMedia("(min-width: 48rem)");
+    desktopQuery.addEventListener("change", (event) => {
+      if (event.matches) {
+        setOpen(false);
+      }
+    });
+  }
+
+  const revealTargets = document.querySelectorAll<HTMLElement>(
+    "main > section:not(:first-child), .service-card, .facility-claims li, .class-contact-actions li",
+  );
+
+  for (const [index, target] of [...revealTargets].entries()) {
+    target.dataset.reveal = "pending";
+    target.style.setProperty("--reveal-delay", `${(index % 4) * 70}ms`);
+  }
+
+  root.dataset.effects = "ready";
+
+  if (reducedMotion.matches || !("IntersectionObserver" in window)) {
+    for (const target of revealTargets) {
+      target.dataset.revealed = "true";
+    }
+  } else {
+    const revealObserver = new IntersectionObserver(
+      (entries, observer) => {
+        for (const entry of entries) {
+          if (!entry.isIntersecting) {
+            continue;
+          }
+
+          (entry.target as HTMLElement).dataset.revealed = "true";
+          observer.unobserve(entry.target);
+        }
+      },
+      { rootMargin: "0px 0px -8% 0px", threshold: 0.08 },
+    );
+
+    for (const target of revealTargets) {
+      revealObserver.observe(target);
+    }
+  }
+
+  const finePointer = window.matchMedia("(pointer: fine)");
+
+  if (finePointer.matches && !reducedMotion.matches) {
+    root.dataset.pointerEffects = "true";
+    let pointerFrame = 0;
+
+    window.addEventListener(
+      "pointermove",
+      (event) => {
+        window.cancelAnimationFrame(pointerFrame);
+        pointerFrame = window.requestAnimationFrame(() => {
+          root.style.setProperty("--pointer-x", `${event.clientX}px`);
+          root.style.setProperty("--pointer-y", `${event.clientY}px`);
+        });
+      },
+      { passive: true },
+    );
+  }
+</script>

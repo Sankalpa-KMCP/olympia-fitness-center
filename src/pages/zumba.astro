@@ -1,0 +1,130 @@
+---
+import PageHero from "../components/content/PageHero.astro";
+import SectionHeading from "../components/home/SectionHeading.astro";
+import ButtonLink from "../components/primitives/ButtonLink.astro";
+import Container from "../components/primitives/Container.astro";
+import Section from "../components/primitives/Section.astro";
+import ClassContactActions from "../components/zumba/ClassContactActions.astro";
+import ScheduleDisplay from "../components/zumba/ScheduleDisplay.astro";
+import { siteRoutes } from "../config/routes";
+import { businessAddress, businessIdentity } from "../data/business";
+import { classContacts, zumbaSchedule } from "../data/zumba";
+import BaseLayout from "../layouts/BaseLayout.astro";
+import zumbaEditorial from "../assets/zumba-editorial.png";
+
+const route = siteRoutes.zumba;
+const weeklyOccurrenceCount = zumbaSchedule.reduce(
+  (total, session) => total + session.days.length,
+  0,
+);
+const description = `View the weekly Zumba class schedule and telephone enquiry options for ${businessIdentity.name} in ${businessAddress.locality}.`;
+---
+
+<BaseLayout
+  title={`Zumba class schedule in ${businessAddress.locality}`}
+  description={description}
+  currentPath={route.path}
+  indexing="noindex"
+>
+  <PageHero
+    eyebrow={`Zumba / ${businessAddress.locality}`}
+    heading="Weekly Zumba class times."
+    headingId="zumba-heading"
+    description="Check the published weekly schedule, then call any listed class number directly with a class enquiry."
+    metric={String(weeklyOccurrenceCount).padStart(2, "0")}
+    metricLabel="Weekly class occurrences"
+    media={zumbaEditorial}
+    mediaAlt="Adults taking part in an energetic dance-fitness session"
+    mediaCaption="AI-generated editorial image"
+    accent="coral"
+  >
+    <Fragment slot="actions">
+      <ButtonLink href={siteRoutes.home.path}>Return home</ButtonLink>
+      <ButtonLink href={siteRoutes.services.path} variant="secondary">
+        Explore services
+      </ButtonLink>
+    </Fragment>
+  </PageHero>
+
+  <Section
+    id="class-schedule"
+    tone="surface"
+    aria-labelledby="class-schedule-heading"
+    class="zumba-schedule"
+  >
+    <Container size="wide">
+      <div class="zumba-schedule__grid">
+        <SectionHeading
+          eyebrow="Full schedule"
+          heading="Two time groups across four weekly classes."
+          headingId="class-schedule-heading"
+          description="The grouped days share the same start and finish time."
+        />
+        <ScheduleDisplay />
+      </div>
+    </Container>
+  </Section>
+
+  <Section aria-labelledby="class-contacts-heading" class="zumba-contacts">
+    <Container size="wide">
+      <SectionHeading
+        eyebrow="Class enquiries"
+        heading="Call a published class number."
+        headingId="class-contacts-heading"
+        description={`All ${classContacts.length} numbers are presented equally. Choose any telephone action below for a class enquiry.`}
+      />
+
+      <div class="zumba-contacts__actions">
+        <ClassContactActions />
+      </div>
+
+      <div class="zumba-contacts__routes u-cluster">
+        <ButtonLink href={siteRoutes.contact.path}>Contact the gym</ButtonLink>
+        <ButtonLink href={siteRoutes.services.path} variant="secondary">
+          View training services
+        </ButtonLink>
+      </div>
+    </Container>
+  </Section>
+</BaseLayout>
+
+<style>
+  .zumba-schedule__grid {
+    display: grid;
+    gap: var(--space-10);
+  }
+
+  .zumba-contacts__actions {
+    margin-block-start: var(--space-10);
+  }
+
+  :global(.zumba-schedule.section--surface) {
+    background:
+      radial-gradient(
+        circle at 12% 85%,
+        rgb(255 121 100 / 8%),
+        transparent 24rem
+      ),
+      #0a1512;
+  }
+
+  .zumba-contacts__routes {
+    --cluster-gap: var(--space-3);
+
+    padding-block-start: var(--space-8);
+    margin-block-start: var(--space-8);
+    border-block-start: var(--border-thin) solid var(--color-border);
+  }
+
+  :global(.zumba-contacts .section-heading__eyebrow) {
+    color: var(--color-coral);
+  }
+
+  @media (min-width: 64rem) {
+    .zumba-schedule__grid {
+      grid-template-columns: minmax(0, 0.8fr) minmax(30rem, 1.2fr);
+      gap: var(--space-12);
+      align-items: start;
+    }
+  }
+</style>

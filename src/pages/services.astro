@@ -1,0 +1,164 @@
+---
+import ContactActions from "../components/business/ContactActions.astro";
+import FacilityClaims from "../components/business/FacilityClaims.astro";
+import PageHero from "../components/content/PageHero.astro";
+import SectionHeading from "../components/home/SectionHeading.astro";
+import ButtonLink from "../components/primitives/ButtonLink.astro";
+import Container from "../components/primitives/Container.astro";
+import Section from "../components/primitives/Section.astro";
+import ServiceCard from "../components/services/ServiceCard.astro";
+import { siteRoutes } from "../config/routes";
+import { businessAddress, businessIdentity } from "../data/business";
+import { serviceCategories } from "../data/services";
+import BaseLayout from "../layouts/BaseLayout.astro";
+
+const route = siteRoutes.services;
+type ServiceId = (typeof serviceCategories)[number]["id"];
+
+const serviceDescriptions = {
+  "general-fitness": "A broad category for everyday fitness-focused training.",
+  "personal-training-enquiries":
+    "A direct route for questions about personal-training-related services.",
+  bodybuilding: "Training enquiries centred on bodybuilding goals.",
+  "muscle-gain": "Training enquiries centred on muscle-gain goals.",
+  "weight-loss": "Training enquiries centred on weight-loss goals.",
+  "strength-training": "Training enquiries centred on strength goals.",
+  "physique-training": "Training enquiries centred on physique goals.",
+} as const satisfies Record<ServiceId, string>;
+
+const description = `Explore seven training categories and business-provided facility information at ${businessIdentity.name} in ${businessAddress.locality}.`;
+---
+
+<BaseLayout
+  title={`Training services in ${businessAddress.locality}`}
+  description={description}
+  currentPath={route.path}
+  indexing="noindex"
+>
+  <PageHero
+    eyebrow={`Services / ${businessAddress.locality}`}
+    heading="Training options for different goals."
+    headingId="services-heading"
+    description={`Explore the current training categories at ${businessIdentity.name}. Each category is an area you can ask the gym about directly.`}
+    metric={String(serviceCategories.length).padStart(2, "0")}
+    metricLabel="Training categories"
+  >
+    <Fragment slot="actions">
+      <ButtonLink href={siteRoutes.home.path}>Return home</ButtonLink>
+      <ButtonLink href={siteRoutes.contact.path} variant="secondary">
+        Contact the gym
+      </ButtonLink>
+    </Fragment>
+  </PageHero>
+
+  <Section
+    id="training-categories"
+    tone="surface"
+    aria-labelledby="training-categories-heading"
+    class="services-listing"
+  >
+    <Container size="wide">
+      <SectionHeading
+        eyebrow="Training categories"
+        heading="Choose a topic for your enquiry."
+        headingId="training-categories-heading"
+        description="The categories describe different training interests in ordinary, practical terms."
+      />
+
+      <div class="services-listing__grid">
+        {
+          serviceCategories.map((service, index) => (
+            <ServiceCard
+              service={service}
+              description={serviceDescriptions[service.id]}
+              index={index}
+            />
+          ))
+        }
+      </div>
+    </Container>
+  </Section>
+
+  <Section aria-labelledby="facilities-heading" class="services-facilities">
+    <Container size="wide">
+      <FacilityClaims headingId="facilities-heading" />
+    </Container>
+  </Section>
+
+  <Section
+    tone="surface"
+    spacing="compact"
+    aria-labelledby="services-enquiry-heading"
+    class="services-enquiry"
+  >
+    <Container size="wide">
+      <div class="services-enquiry__grid">
+        <SectionHeading
+          eyebrow="Direct enquiry"
+          heading="Ask about the training category that interests you."
+          headingId="services-enquiry-heading"
+          description="Call or email with the type of training you want to discuss, then continue to the contact page for the verified gym details."
+        />
+
+        <div class="services-enquiry__actions">
+          <ContactActions />
+          <ButtonLink href={siteRoutes.contact.path} variant="secondary">
+            Open contact page
+          </ButtonLink>
+        </div>
+      </div>
+    </Container>
+  </Section>
+</BaseLayout>
+
+<style>
+  .services-listing__grid {
+    display: grid;
+    margin-block-start: var(--space-10);
+    gap: var(--space-4);
+  }
+
+  .services-enquiry__grid {
+    display: grid;
+    gap: var(--space-8);
+    align-items: start;
+  }
+
+  .services-enquiry__actions {
+    display: grid;
+    padding: var(--space-5);
+    border: var(--border-thin) solid var(--color-border);
+    border-radius: var(--radius-lg);
+    background: var(--color-canvas);
+    gap: var(--space-5);
+  }
+
+  .services-enquiry__actions .button-link {
+    justify-self: start;
+  }
+
+  @media (min-width: 40rem) {
+    .services-listing__grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+
+  @media (min-width: 64rem) {
+    .services-listing__grid {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+
+    .services-listing__grid > :first-child,
+    .services-listing__grid > :nth-child(5) {
+      grid-column: span 2;
+    }
+
+    .services-enquiry__grid {
+      grid-template-columns: minmax(0, 1.35fr) minmax(18rem, 0.65fr);
+    }
+
+    .services-enquiry__actions {
+      padding: var(--space-6);
+    }
+  }
+</style>

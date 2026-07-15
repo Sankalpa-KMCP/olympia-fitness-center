@@ -1,0 +1,81 @@
+---
+import { businessAddress, businessIdentity } from "../../data/business";
+import { formatPostalAddress } from "../../utils/business-formatting";
+import ContactActions from "../business/ContactActions.astro";
+import HoursDisplay from "../business/HoursDisplay.astro";
+import Container from "../primitives/Container.astro";
+---
+
+<footer class="site-footer">
+  <Container size="wide">
+    <div class="site-footer__grid">
+      <section class="site-footer__identity" aria-labelledby="footer-identity">
+        <h2 id="footer-identity">{businessIdentity.name}</h2>
+        <p>{businessIdentity.category}</p>
+        <address>{formatPostalAddress(businessAddress)}</address>
+      </section>
+
+      <section aria-labelledby="footer-contact">
+        <h2 id="footer-contact">Contact</h2>
+        <ContactActions />
+      </section>
+
+      <HoursDisplay />
+    </div>
+  </Container>
+</footer>
+
+<style>
+  .site-footer {
+    padding-block: var(--section-space-compact);
+    border-block-start: var(--border-thin) solid var(--color-border);
+    background:
+      radial-gradient(
+        circle at 8% 20%,
+        rgb(201 255 98 / 7%),
+        transparent 22rem
+      ),
+      #050b0a;
+  }
+
+  .site-footer__grid {
+    display: grid;
+    gap: var(--space-12);
+  }
+
+  .site-footer h2 {
+    font-family: var(--font-body);
+    font-size: var(--text-body);
+    letter-spacing: 0;
+  }
+
+  .site-footer__identity {
+    display: grid;
+    align-content: start;
+    gap: var(--space-2);
+  }
+
+  .site-footer__identity h2 {
+    color: var(--color-accent);
+    font-family: var(--font-display);
+    font-size: var(--text-heading-md);
+    letter-spacing: var(--tracking-tight);
+  }
+
+  .site-footer__identity p,
+  .site-footer address {
+    color: var(--color-text-muted);
+    font-size: var(--text-sm);
+  }
+
+  .site-footer address {
+    max-inline-size: 28rem;
+    font-style: normal;
+  }
+
+  @media (min-width: 48rem) {
+    .site-footer__grid {
+      grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr) minmax(15rem, 1fr);
+    }
+  }
+</style>

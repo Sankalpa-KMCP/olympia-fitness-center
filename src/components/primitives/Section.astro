@@ -1,0 +1,51 @@
+---
+type SectionElement = "section" | "div";
+type SectionTone = "default" | "surface";
+type SectionSpacing = "standard" | "compact";
+
+interface Props {
+  as?: SectionElement;
+  tone?: SectionTone;
+  spacing?: SectionSpacing;
+  id?: string;
+  class?: string;
+  "aria-label"?: string;
+  "aria-labelledby"?: string;
+}
+
+const {
+  as: Tag = "section",
+  tone = "default",
+  spacing = "standard",
+  class: className,
+  ...attributes
+}: Props = Astro.props;
+---
+
+<Tag
+  class:list={[
+    "u-section",
+    "section",
+    `section--${tone}`,
+    `section--${spacing}`,
+    className,
+  ]}
+  {...attributes}
+>
+  <slot />
+</Tag>
+
+<style>
+  .section {
+    position: relative;
+  }
+
+  .section--compact {
+    padding-block: var(--section-space-compact);
+  }
+
+  .section--surface {
+    background: #0a1512;
+    border-block: var(--border-thin) solid rgb(255 255 255 / 4%);
+  }
+</style>

@@ -1,0 +1,80 @@
+---
+import { classContacts } from "../../data/zumba";
+import { createTelHref } from "../../utils/contact-links";
+---
+
+<ul class="class-contact-actions" aria-label="Zumba class telephone contacts">
+  {
+    classContacts.map((contact, index) => (
+      <li>
+        <a href={createTelHref(contact.display)}>
+          <span aria-hidden="true">{String(index + 1).padStart(2, "0")}</span>
+          <small>Call</small>
+          <strong>{contact.display}</strong>
+        </a>
+      </li>
+    ))
+  }
+</ul>
+
+<style>
+  .class-contact-actions {
+    display: grid;
+    padding: 0;
+    gap: var(--space-3);
+    list-style: none;
+  }
+
+  .class-contact-actions li {
+    max-inline-size: none;
+  }
+
+  .class-contact-actions a {
+    display: grid;
+    min-block-size: var(--target-min);
+    padding: var(--space-5);
+    border: var(--border-thin) solid var(--color-border);
+    border-radius: var(--radius-lg);
+    background: var(--color-canvas);
+    grid-template-columns: auto minmax(0, 1fr);
+    gap: var(--space-1) var(--space-4);
+    color: var(--color-text);
+    text-decoration: none;
+    transition:
+      transform var(--duration-standard) var(--ease-standard),
+      border-color var(--duration-standard) var(--ease-standard);
+  }
+
+  .class-contact-actions a:hover {
+    border-color: var(--color-text-muted);
+    color: var(--color-text);
+    transform: translateY(-3px);
+  }
+
+  .class-contact-actions span {
+    grid-row: 1 / span 2;
+    color: var(--color-text-muted);
+    font-family: var(--font-mono);
+    font-size: var(--text-xs);
+    letter-spacing: var(--tracking-label);
+  }
+
+  .class-contact-actions small {
+    color: var(--color-coral);
+    font-family: var(--font-mono);
+    font-size: var(--text-xs);
+    font-weight: 700;
+    letter-spacing: var(--tracking-label);
+    text-transform: uppercase;
+  }
+
+  .class-contact-actions strong {
+    font-size: var(--text-lead);
+  }
+
+  @media (min-width: 48rem) {
+    .class-contact-actions {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+  }
+</style>

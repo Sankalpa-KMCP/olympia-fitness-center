@@ -1,0 +1,74 @@
+html[data-effects="ready"] [data-reveal="pending"] {
+  opacity: 0;
+  transform: translateY(2.25rem);
+  transition:
+    opacity 700ms var(--ease-standard) var(--reveal-delay, 0ms),
+    transform 700ms var(--ease-standard) var(--reveal-delay, 0ms);
+}
+
+html[data-effects="ready"] [data-reveal="pending"][data-revealed="true"] {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+:where(.service-card, .class-contact-actions a, .button-link) {
+  will-change: transform;
+}
+
+:where(
+  .home-hero__visual figure,
+  .page-hero__media,
+  .contact-real-place figure
+) {
+  transform-style: preserve-3d;
+}
+
+:where(
+  .home-hero__visual img,
+  .page-hero__media img,
+  .contact-real-place figure img
+) {
+  transition:
+    transform 900ms var(--ease-standard),
+    filter 500ms var(--ease-standard);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  :where(
+      .home-hero__visual figure,
+      .page-hero__media,
+      .contact-real-place figure
+    ):hover
+    img {
+    filter: saturate(1.08) contrast(1.03);
+    transform: scale(1.025);
+  }
+}
+
+@supports (animation-timeline: view()) {
+  :where(.page-hero__media img, .contact-real-place figure img) {
+    animation: cinematic-pan linear both;
+    animation-timeline: view(block);
+    animation-range: entry 0% exit 100%;
+  }
+}
+
+@keyframes cinematic-pan {
+  from {
+    object-position: center 42%;
+    transform: scale(1.035);
+  }
+
+  to {
+    object-position: center 58%;
+    transform: scale(1);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html[data-effects="ready"] [data-reveal="pending"],
+  html[data-effects="ready"] [data-reveal="pending"][data-revealed="true"] {
+    opacity: 1;
+    transform: none;
+  }
+}

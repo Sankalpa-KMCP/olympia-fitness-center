@@ -1,0 +1,88 @@
+---
+import { businessIdentity } from "../../data/business";
+import { facilityClaims } from "../../data/services";
+
+interface Props {
+  headingId: string;
+}
+
+const { headingId }: Props = Astro.props;
+---
+
+<div class="facility-claims">
+  <header>
+    <p>Business-provided information</p>
+    <h2 id={headingId}>Facility details supplied by the gym.</h2>
+    <span>
+      These promotional statements are presented as information provided by {
+        businessIdentity.name
+      }.
+    </span>
+  </header>
+
+  <ul>
+    {facilityClaims.items.map((claim) => <li>{claim}</li>)}
+  </ul>
+</div>
+
+<style>
+  .facility-claims {
+    display: grid;
+    gap: var(--space-8);
+  }
+
+  .facility-claims header {
+    display: grid;
+    max-inline-size: 48rem;
+    gap: var(--space-4);
+  }
+
+  .facility-claims header p {
+    color: var(--color-accent);
+    font-family: var(--font-mono);
+    font-size: var(--text-xs);
+    font-weight: 700;
+    letter-spacing: var(--tracking-label);
+    text-transform: uppercase;
+  }
+
+  .facility-claims header span {
+    color: var(--color-text-muted);
+    font-size: var(--text-lead);
+  }
+
+  .facility-claims ul {
+    display: grid;
+    padding: 0;
+    gap: var(--space-3);
+    list-style: none;
+  }
+
+  .facility-claims li {
+    display: grid;
+    max-inline-size: none;
+    min-block-size: var(--target-min);
+    padding: var(--space-5);
+    border: var(--border-thin) solid var(--color-border);
+    border-radius: var(--radius-md);
+    background: var(--color-surface);
+    grid-template-columns: var(--space-5) minmax(0, 1fr);
+    gap: var(--space-3);
+    align-items: baseline;
+  }
+
+  .facility-claims li::before {
+    color: var(--color-accent);
+    content: "+";
+    font-family: var(--font-mono);
+    font-weight: 700;
+  }
+
+  @media (min-width: 48rem) {
+    .facility-claims {
+      grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.2fr);
+      gap: var(--space-12);
+      align-items: start;
+    }
+  }
+</style>

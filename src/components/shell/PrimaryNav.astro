@@ -1,0 +1,136 @@
+---
+import {
+  isCurrentRoute,
+  primaryNavigationRoutes,
+  type SiteRoutePath,
+} from "../../config/routes";
+
+interface Props {
+  currentPath: SiteRoutePath;
+}
+
+const { currentPath }: Props = Astro.props;
+---
+
+<nav class="primary-nav" aria-label="Primary navigation" data-primary-nav>
+  <button
+    class="primary-nav__toggle"
+    type="button"
+    aria-controls="primary-navigation-list"
+    aria-expanded="false"
+    hidden
+    data-nav-toggle
+  >
+    Menu
+  </button>
+
+  <ul class="primary-nav__list" id="primary-navigation-list" data-nav-list>
+    {
+      primaryNavigationRoutes.map((route) => {
+        const isCurrent = isCurrentRoute(currentPath, route.path);
+
+        return (
+          <li>
+            <a href={route.path} aria-current={isCurrent ? "page" : undefined}>
+              {route.label}
+            </a>
+          </li>
+        );
+      })
+    }
+  </ul>
+</nav>
+
+<style>
+  .primary-nav {
+    position: static;
+  }
+
+  .primary-nav__toggle {
+    display: none;
+    min-block-size: var(--target-min);
+    padding: var(--space-2) var(--space-4);
+    border: var(--border-thin) solid var(--color-border);
+    border-radius: var(--radius-pill);
+    background: var(--color-surface-raised);
+    color: var(--color-text);
+    font-size: var(--text-sm);
+    font-weight: 800;
+  }
+
+  .primary-nav__list {
+    display: grid;
+    padding: 0;
+    gap: var(--space-1);
+    list-style: none;
+  }
+
+  .primary-nav a {
+    display: flex;
+    min-block-size: var(--target-min);
+    padding: var(--space-2) var(--space-4);
+    border-radius: var(--radius-pill);
+    align-items: center;
+    color: var(--color-text);
+    font-size: var(--text-sm);
+    font-weight: 650;
+    text-decoration: none;
+  }
+
+  .primary-nav a:hover {
+    background: rgb(255 255 255 / 5%);
+    color: var(--color-text);
+  }
+
+  .primary-nav a[aria-current="page"] {
+    background: var(--color-accent);
+    color: var(--color-on-accent);
+  }
+
+  @media (max-width: 47.999rem) {
+    .primary-nav:not([data-enhanced="true"]) {
+      grid-column: 1 / -1;
+      inline-size: 100%;
+      margin-block-start: var(--space-3);
+    }
+
+    .primary-nav[data-enhanced="true"] {
+      grid-column: 2;
+    }
+
+    .primary-nav[data-enhanced="true"] .primary-nav__toggle:not([hidden]) {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .primary-nav[data-enhanced="true"] .primary-nav__list {
+      display: none;
+    }
+
+    .primary-nav[data-enhanced="true"][data-open="true"] .primary-nav__list {
+      position: absolute;
+      z-index: var(--layer-overlay);
+      display: grid;
+      inset-block-start: calc(100% + var(--space-3));
+      inset-inline: 0;
+      padding: var(--space-3);
+      border: var(--border-thin) solid var(--color-border);
+      border-radius: var(--radius-lg);
+      background: rgb(13 25 22 / 98%);
+      box-shadow: var(--shadow-md);
+    }
+  }
+
+  @media (min-width: 48rem) {
+    .primary-nav__toggle {
+      display: none !important;
+    }
+
+    .primary-nav__list {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: flex-end;
+    }
+  }
+</style>

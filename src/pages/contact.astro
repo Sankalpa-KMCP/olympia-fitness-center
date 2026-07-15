@@ -1,0 +1,402 @@
+---
+import { Image } from "astro:assets";
+import olympiaMapsPhoto from "../assets/olympia-google-maps-photo.jpg";
+import ContactActions from "../components/business/ContactActions.astro";
+import HoursDisplay from "../components/business/HoursDisplay.astro";
+import VisitDetails from "../components/contact/VisitDetails.astro";
+import PageHero from "../components/content/PageHero.astro";
+import SectionHeading from "../components/home/SectionHeading.astro";
+import ButtonLink from "../components/primitives/ButtonLink.astro";
+import Container from "../components/primitives/Container.astro";
+import Section from "../components/primitives/Section.astro";
+import { siteRoutes } from "../config/routes";
+import {
+  businessAddress,
+  businessIdentity,
+  primaryContact,
+} from "../data/business";
+import BaseLayout from "../layouts/BaseLayout.astro";
+import { createMailtoHref, createTelHref } from "../utils/contact-links";
+
+const route = siteRoutes.contact;
+const telephoneHref = createTelHref(primaryContact.phone.international);
+const emailHref = createMailtoHref(primaryContact.email);
+const directContactMethods = [telephoneHref, emailHref] as const;
+const description = `Call or email ${businessIdentity.name} and view its ${businessAddress.locality} address, Plus Code, and opening hours.`;
+---
+
+<BaseLayout
+  title={`Contact and visit ${businessIdentity.name} in ${businessAddress.locality}`}
+  description={description}
+  currentPath={route.path}
+  indexing="noindex"
+>
+  <PageHero
+    eyebrow={`Contact / ${businessAddress.locality}`}
+    heading="Contact, visit, or ask about joining."
+    headingId="contact-heading"
+    description="Use the verified phone or email details to ask a question, plan a visit, or discuss current membership information directly with the gym."
+    metric={String(directContactMethods.length).padStart(2, "0")}
+    metricLabel="Direct contact methods"
+  >
+    <Fragment slot="actions">
+      <ButtonLink href={telephoneHref}>
+        Call {primaryContact.phone.display}
+      </ButtonLink>
+      <ButtonLink href={emailHref} variant="secondary">Email the gym</ButtonLink
+      >
+    </Fragment>
+  </PageHero>
+
+  <Section class="contact-real-place" aria-labelledby="real-place-heading">
+    <Container size="wide">
+      <div class="contact-real-place__grid">
+        <figure data-media-review="launch-rights">
+          <Image
+            src={olympiaMapsPhoto}
+            alt="Olympia Fitness Center interior with strength equipment and the Olympia wall sign"
+            widths={[480, 720, 960]}
+            sizes="(min-width: 64rem) 48vw, 92vw"
+            quality={84}
+          />
+          <figcaption>
+            Real Olympia Fitness Center photo sourced from its matching Google
+            Maps listing. Reuse permission must be confirmed before public
+            launch.
+          </figcaption>
+        </figure>
+
+        <div class="contact-real-place__copy">
+          <p>Inside Olympia</p>
+          <h2 id="real-place-heading">A real look at the Wadduwa gym.</h2>
+          <span>
+            This listing image shows the Olympia wall mark and part of the
+            training floor. Contact the gym directly when you want to plan a
+            first visit.
+          </span>
+          <ButtonLink href="#visit-details">Plan your visit</ButtonLink>
+        </div>
+      </div>
+    </Container>
+  </Section>
+
+  <Section
+    id="visit-details"
+    tone="surface"
+    aria-labelledby="visit-details-heading"
+    class="contact-visit"
+  >
+    <Container size="wide">
+      <SectionHeading
+        eyebrow="Verified details"
+        heading="Plan a direct enquiry or visit."
+        headingId="visit-details-heading"
+        description="Use the published contact and location information below. The Plus Code is provided as plain text rather than an active directions link."
+      />
+
+      <div class="contact-visit__grid">
+        <article
+          class="contact-visit__actions"
+          aria-labelledby="contact-actions-heading"
+        >
+          <p>Phone and email</p>
+          <h3 id="contact-actions-heading">Contact the gym directly</h3>
+          <ContactActions />
+        </article>
+        <VisitDetails />
+      </div>
+    </Container>
+  </Section>
+
+  <Section
+    id="opening-hours"
+    aria-labelledby="opening-hours-heading"
+    class="contact-hours"
+  >
+    <Container size="wide">
+      <SectionHeading
+        eyebrow="Visit planning"
+        heading="Opening hours for the weekly schedule."
+        headingId="opening-hours-heading"
+        description="Weekday and Saturday split periods, Sunday hours, and Poya-day hours are shown separately."
+      />
+
+      <div class="contact-hours__grid">
+        <article
+          class="contact-hours__schedule"
+          aria-label="Published gym hours"
+        >
+          <HoursDisplay headingLevel="h3" />
+        </article>
+
+        <aside
+          class="contact-hours__notice"
+          aria-labelledby="hours-notice-heading"
+        >
+          <p>Before a particular visit</p>
+          <h3 id="hours-notice-heading">Confirm schedule changes directly.</h3>
+          <span>
+            The timetable above is the published schedule. Contact the gym when
+            you need to confirm changes around holidays or another schedule
+            change.
+          </span>
+          <ButtonLink href={telephoneHref} variant="secondary">
+            Call to confirm
+          </ButtonLink>
+        </aside>
+      </div>
+    </Container>
+  </Section>
+
+  <Section
+    tone="surface"
+    aria-labelledby="next-steps-heading"
+    class="contact-next-steps"
+  >
+    <Container size="wide">
+      <SectionHeading
+        eyebrow="Next steps"
+        heading="Ask about membership or continue to Zumba."
+        headingId="next-steps-heading"
+        description="Direct contact keeps current information, fees, and availability clear before you decide whether to visit or enquire further."
+      />
+
+      <div class="contact-next-steps__grid">
+        <article
+          class="contact-next-steps__membership"
+          aria-labelledby="membership-heading"
+        >
+          <p>Membership interest</p>
+          <h3 id="membership-heading">Topics to ask the gym about</h3>
+          <ul>
+            <li>Current membership options</li>
+            <li>Current fees</li>
+            <li>Suitable training categories to discuss</li>
+            <li>Personal-training-related enquiries</li>
+            <li>Opening-hour confirmation for a planned visit</li>
+          </ul>
+          <ContactActions />
+        </article>
+
+        <article
+          class="contact-next-steps__zumba"
+          aria-labelledby="zumba-path-heading"
+        >
+          <p>Zumba enquiries</p>
+          <h3 id="zumba-path-heading">Use the completed class journey.</h3>
+          <span>
+            Continue to the Zumba page for the current class schedule and its
+            published telephone enquiry options.
+          </span>
+          <ButtonLink href={siteRoutes.zumba.path}>Open Zumba page</ButtonLink>
+        </article>
+      </div>
+
+      <nav
+        class="contact-next-steps__routes u-cluster"
+        aria-label="Related pages"
+      >
+        <ButtonLink href={siteRoutes.home.path} variant="secondary">
+          Return home
+        </ButtonLink>
+        <ButtonLink href={siteRoutes.services.path} variant="secondary">
+          Explore services
+        </ButtonLink>
+      </nav>
+    </Container>
+  </Section>
+</BaseLayout>
+
+<style>
+  .contact-real-place__grid {
+    display: grid;
+    gap: var(--space-10);
+    align-items: center;
+  }
+
+  .contact-real-place figure {
+    position: relative;
+    margin: 0;
+    overflow: hidden;
+    border-radius: var(--radius-xl);
+  }
+
+  .contact-real-place figure::before {
+    position: absolute;
+    z-index: -1;
+    inset: 0;
+    border: var(--border-thin) solid rgb(201 255 98 / 40%);
+    border-radius: var(--radius-xl);
+    content: "";
+    pointer-events: none;
+    transform: scale(0.97);
+  }
+
+  .contact-real-place figure :global(img) {
+    inline-size: 100%;
+    max-block-size: 40rem;
+    border-radius: var(--radius-xl);
+    object-fit: cover;
+    object-position: center 56%;
+    box-shadow: var(--shadow-md);
+  }
+
+  .contact-real-place figcaption {
+    max-inline-size: 50rem;
+    margin-block-start: var(--space-3);
+    color: var(--color-text-muted);
+    font-size: var(--text-xs);
+  }
+
+  .contact-real-place__copy {
+    display: grid;
+    gap: var(--space-5);
+  }
+
+  .contact-real-place__copy > p {
+    color: var(--color-accent);
+    font-family: var(--font-mono);
+    font-size: var(--text-xs);
+    font-weight: 650;
+    letter-spacing: var(--tracking-label);
+    text-transform: uppercase;
+  }
+
+  .contact-real-place__copy > span {
+    max-inline-size: 34rem;
+    color: var(--color-text-muted);
+    font-size: var(--text-lead);
+  }
+
+  .contact-real-place__copy .button-link {
+    justify-self: start;
+  }
+
+  .contact-visit__grid,
+  .contact-hours__grid,
+  .contact-next-steps__grid {
+    display: grid;
+    margin-block-start: var(--space-10);
+    gap: var(--space-6);
+  }
+
+  .contact-visit__actions,
+  .contact-hours__schedule,
+  .contact-hours__notice,
+  .contact-next-steps__membership,
+  .contact-next-steps__zumba {
+    display: grid;
+    padding: var(--space-6);
+    border: var(--border-thin) solid var(--color-border);
+    border-radius: var(--radius-lg);
+    gap: var(--space-4);
+    align-content: start;
+  }
+
+  .contact-visit__actions,
+  .contact-next-steps__membership,
+  .contact-next-steps__zumba {
+    background: var(--color-canvas);
+  }
+
+  .contact-hours__schedule,
+  .contact-hours__notice {
+    background:
+      radial-gradient(
+        circle at 100% 0%,
+        rgb(201 255 98 / 10%),
+        transparent 14rem
+      ),
+      var(--color-surface);
+  }
+
+  .contact-visit__actions > p,
+  .contact-hours__notice > p,
+  .contact-next-steps__membership > p,
+  .contact-next-steps__zumba > p {
+    color: var(--color-accent);
+    font-family: var(--font-mono);
+    font-size: var(--text-xs);
+    font-weight: 700;
+    letter-spacing: var(--tracking-label);
+    text-transform: uppercase;
+  }
+
+  .contact-visit__actions h3,
+  .contact-hours__notice h3,
+  .contact-next-steps__membership h3,
+  .contact-next-steps__zumba h3 {
+    font-size: var(--text-heading-sm);
+  }
+
+  .contact-hours__notice > span,
+  .contact-next-steps__zumba > span {
+    color: var(--color-text-muted);
+  }
+
+  .contact-hours__notice .button-link,
+  .contact-next-steps__zumba .button-link {
+    margin-block-start: var(--space-3);
+    justify-self: start;
+  }
+
+  .contact-next-steps__membership ul {
+    display: grid;
+    padding: 0;
+    margin-block: var(--space-2);
+    border-block-start: var(--border-thin) solid var(--color-border);
+    list-style: none;
+  }
+
+  .contact-next-steps__membership li {
+    display: grid;
+    max-inline-size: none;
+    padding-block: var(--space-3);
+    border-block-end: var(--border-thin) solid var(--color-border);
+    grid-template-columns: var(--space-4) minmax(0, 1fr);
+    gap: var(--space-3);
+  }
+
+  .contact-next-steps__membership li::before {
+    color: var(--color-accent);
+    content: "+";
+    font-family: var(--font-mono);
+    font-weight: 700;
+  }
+
+  .contact-next-steps__routes {
+    --cluster-gap: var(--space-3);
+
+    padding-block-start: var(--space-8);
+    margin-block-start: var(--space-8);
+    border-block-start: var(--border-thin) solid var(--color-border);
+  }
+
+  @media (min-width: 48rem) {
+    .contact-visit__actions,
+    .contact-hours__schedule,
+    .contact-hours__notice,
+    .contact-next-steps__membership,
+    .contact-next-steps__zumba {
+      padding: var(--space-8);
+    }
+
+    .contact-hours__grid,
+    .contact-next-steps__grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      align-items: stretch;
+    }
+  }
+
+  @media (min-width: 64rem) {
+    .contact-real-place__grid {
+      grid-template-columns: minmax(0, 1.1fr) minmax(20rem, 0.9fr);
+      gap: var(--space-16);
+    }
+
+    .contact-visit__grid {
+      grid-template-columns: minmax(16rem, 0.55fr) minmax(0, 1.45fr);
+      align-items: stretch;
+    }
+  }
+</style>

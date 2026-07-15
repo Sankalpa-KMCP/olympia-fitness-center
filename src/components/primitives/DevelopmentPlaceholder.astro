@@ -1,0 +1,78 @@
+---
+type PlaceholderRatio = "landscape" | "square";
+
+interface Props {
+  label?: string;
+  ratio?: PlaceholderRatio;
+  class?: string;
+}
+
+const {
+  label = "Reserved for future approved media.",
+  ratio = "landscape",
+  class: className,
+} = Astro.props;
+---
+
+<figure class:list={["placeholder", `placeholder--${ratio}`, className]}>
+  <div class="placeholder__field" aria-hidden="true">
+    <span>Development only</span>
+    <span>No production media</span>
+  </div>
+  <figcaption>
+    <strong>Development-only placeholder</strong>
+    <span>{label}</span>
+  </figcaption>
+</figure>
+
+<style>
+  .placeholder {
+    display: grid;
+    gap: var(--space-3);
+    max-inline-size: 100%;
+    min-inline-size: 0;
+  }
+
+  .placeholder__field {
+    display: grid;
+    inline-size: 100%;
+    padding: var(--space-5);
+    border: var(--border-strong) dashed var(--color-border);
+    border-radius: var(--radius-md);
+    background: repeating-linear-gradient(
+      135deg,
+      var(--color-surface),
+      var(--color-surface) var(--space-3),
+      var(--color-surface-raised) var(--space-3),
+      var(--color-surface-raised) var(--space-6)
+    );
+    place-content: center;
+    color: var(--color-text-muted);
+    font-family: var(--font-mono);
+    font-size: var(--text-xs);
+    font-weight: 700;
+    gap: var(--space-2);
+    letter-spacing: var(--tracking-label);
+    text-align: center;
+    text-transform: uppercase;
+  }
+
+  .placeholder--landscape .placeholder__field {
+    aspect-ratio: 16 / 9;
+  }
+
+  .placeholder--square .placeholder__field {
+    aspect-ratio: 1;
+  }
+
+  figcaption {
+    display: grid;
+    color: var(--color-text-muted);
+    font-size: var(--text-sm);
+    gap: var(--space-1);
+  }
+
+  figcaption strong {
+    color: var(--color-text);
+  }
+</style>

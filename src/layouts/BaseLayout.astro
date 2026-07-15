@@ -1,0 +1,168 @@
+---
+import SiteFooter from "../components/shell/SiteFooter.astro";
+import SiteHeader from "../components/shell/SiteHeader.astro";
+import SkipLink from "../components/shell/SkipLink.astro";
+import ClientEffects from "../components/shell/ClientEffects.astro";
+import LocalBusinessStructuredData from "../components/seo/LocalBusinessStructuredData.astro";
+import SeoHead from "../components/seo/SeoHead.astro";
+import type { SiteRoutePath } from "../config/routes";
+import { businessIdentity } from "../data/business";
+import "../styles/global.css";
+import type {
+  IndexingState,
+  OpenGraphMetadata,
+  StructuredData,
+} from "../types/seo";
+
+interface Props {
+  title: string;
+  description: string;
+  currentPath: SiteRoutePath;
+  indexing?: IndexingState;
+  canonicalPath?: SiteRoutePath;
+  openGraph?: OpenGraphMetadata;
+  structuredData?: StructuredData;
+  includeLocalBusinessStructuredData?: boolean;
+}
+
+const {
+  title,
+  description,
+  currentPath,
+  indexing = "index",
+  canonicalPath,
+  openGraph,
+  structuredData,
+  includeLocalBusinessStructuredData = true,
+}: Props = Astro.props;
+
+const documentTitle = `${title} | ${businessIdentity.name}`;
+const openGraphMetadata = openGraph ?? {
+  title: documentTitle,
+  description,
+  type: "website",
+};
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta name="theme-color" content="#07100e" />
+    <SeoHead
+      title={documentTitle}
+      description={description}
+      indexing={indexing}
+      canonicalPath={canonicalPath}
+      openGraph={openGraphMetadata}
+      structuredData={structuredData}
+    />
+    {includeLocalBusinessStructuredData && <LocalBusinessStructuredData />}
+  </head>
+  <body>
+    <div class="site-ambient" aria-hidden="true">
+      <span class="site-ambient__glow"></span>
+      <span class="site-ambient__grain"></span>
+    </div>
+    <div class="scroll-progress" aria-hidden="true"></div>
+    <SkipLink />
+    <SiteHeader currentPath={currentPath} />
+    <main id="main-content" tabindex="-1">
+      <slot />
+    </main>
+    <SiteFooter />
+    <ClientEffects />
+  </body>
+</html>
+
+<style>
+  :global(body) {
+    display: flex;
+    flex-direction: column;
+  }
+
+  main {
+    flex: 1;
+  }
+
+  :global(.site-ambient) {
+    position: fixed;
+    z-index: var(--layer-base);
+    inset: 0;
+    pointer-events: none;
+  }
+
+  :global(.site-ambient__glow),
+  :global(.site-ambient__grain) {
+    position: absolute;
+    inset: 0;
+  }
+
+  :global(.site-ambient__glow) {
+    background: radial-gradient(
+      circle 24rem at var(--pointer-x, 78%) var(--pointer-y, 8%),
+      rgb(201 255 98 / 7%),
+      transparent 68%
+    );
+    opacity: 0.4;
+    transition: opacity var(--duration-standard) var(--ease-standard);
+  }
+
+  :global(html[data-pointer-effects="true"] .site-ambient__glow) {
+    opacity: 1;
+  }
+
+  :global(.site-ambient__grain) {
+    background:
+      repeating-linear-gradient(
+        0deg,
+        rgb(255 255 255 / 1.4%) 0,
+        rgb(255 255 255 / 1.4%) 1px,
+        transparent 1px,
+        transparent 4px
+      ),
+      repeating-linear-gradient(
+        90deg,
+        rgb(255 255 255 / 0.8%) 0,
+        rgb(255 255 255 / 0.8%) 1px,
+        transparent 1px,
+        transparent 5px
+      );
+    mix-blend-mode: soft-light;
+    opacity: 0.28;
+  }
+
+  :global(.scroll-progress) {
+    position: fixed;
+    z-index: calc(var(--layer-overlay) + 1);
+    inset-block-start: 0;
+    inset-inline-start: 0;
+    inline-size: 100%;
+    block-size: 3px;
+    background: var(--color-coral);
+    transform: scaleX(0);
+    transform-origin: left;
+    animation: scroll-progress linear;
+    animation-timeline: scroll(root block);
+  }
+
+  :global(header),
+  :global(main),
+  :global(footer),
+  :global(.skip-link) {
+    position: relative;
+    z-index: 1;
+  }
+
+  @keyframes scroll-progress {
+    to {
+      transform: scaleX(1);
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    :global(.scroll-progress),
+    :global(.site-ambient__glow) {
+      display: none;
+    }
+  }
+</style>

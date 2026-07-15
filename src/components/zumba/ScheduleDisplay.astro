@@ -1,0 +1,112 @@
+---
+import { zumbaSchedule } from "../../data/zumba";
+import {
+  formatDayGroup,
+  formatLocalTime,
+} from "../../utils/business-formatting";
+---
+
+<div class="schedule-display">
+  <table>
+    <caption>Weekly Zumba class schedule</caption>
+    <thead>
+      <tr>
+        <th scope="col">Class days</th>
+        <th scope="col">Class time</th>
+      </tr>
+    </thead>
+    <tbody>
+      {
+        zumbaSchedule.map((session) => (
+          <tr>
+            <th scope="row">{formatDayGroup(session.days)}</th>
+            <td>
+              <time datetime={session.period.opens}>
+                {formatLocalTime(session.period.opens)}
+              </time>
+              <span aria-hidden="true">–</span>
+              <span class="u-sr-only"> to </span>
+              <time datetime={session.period.closes}>
+                {formatLocalTime(session.period.closes)}
+              </time>
+            </td>
+          </tr>
+        ))
+      }
+    </tbody>
+  </table>
+</div>
+
+<style>
+  .schedule-display {
+    border: var(--border-thin) solid var(--color-border);
+    border-radius: var(--radius-lg);
+    background: var(--color-surface);
+    box-shadow: var(--shadow-sm);
+    overflow: hidden;
+  }
+
+  .schedule-display table {
+    inline-size: 100%;
+    border-collapse: collapse;
+    table-layout: fixed;
+  }
+
+  .schedule-display caption {
+    padding: var(--space-5);
+    border-block-end: var(--border-thin) solid var(--color-border);
+    color: var(--color-coral);
+    font-family: var(--font-mono);
+    font-size: var(--text-xs);
+    font-weight: 700;
+    letter-spacing: var(--tracking-label);
+    text-align: start;
+    text-transform: uppercase;
+  }
+
+  .schedule-display th,
+  .schedule-display td {
+    padding: var(--space-4);
+    border-block-end: var(--border-thin) solid var(--color-border);
+    text-align: start;
+    vertical-align: top;
+  }
+
+  .schedule-display tr:last-child th,
+  .schedule-display tr:last-child td {
+    border-block-end: 0;
+  }
+
+  .schedule-display thead th {
+    background: var(--color-surface-raised);
+    color: var(--color-text-muted);
+    font-family: var(--font-mono);
+    font-size: var(--text-xs);
+    letter-spacing: var(--tracking-label);
+    text-transform: uppercase;
+  }
+
+  .schedule-display th:first-child {
+    inline-size: 52%;
+  }
+
+  .schedule-display tbody th {
+    color: var(--color-text);
+    font-size: var(--text-sm);
+  }
+
+  .schedule-display td {
+    color: var(--color-accent);
+    font-family: var(--font-mono);
+    font-size: var(--text-sm);
+    font-weight: 700;
+  }
+
+  @media (min-width: 40rem) {
+    .schedule-display caption,
+    .schedule-display th,
+    .schedule-display td {
+      padding: var(--space-5) var(--space-6);
+    }
+  }
+</style>

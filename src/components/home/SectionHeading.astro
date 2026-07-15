@@ -1,0 +1,48 @@
+---
+interface Props {
+  eyebrow: string;
+  heading: string;
+  headingId: string;
+  description?: string;
+}
+
+const { eyebrow, heading, headingId, description }: Props = Astro.props;
+---
+
+<header class="section-heading">
+  <p class="section-heading__eyebrow">{eyebrow}</p>
+  <h2 id={headingId}>{heading}</h2>
+  {description && <p class="section-heading__description">{description}</p>}
+</header>
+
+<style>
+  .section-heading {
+    display: grid;
+    max-inline-size: 48rem;
+    gap: var(--space-5);
+  }
+
+  .section-heading__eyebrow {
+    display: flex;
+    gap: var(--space-3);
+    align-items: center;
+    color: var(--color-accent);
+    font-family: var(--font-mono);
+    font-size: var(--text-xs);
+    font-weight: 650;
+    letter-spacing: var(--tracking-label);
+    text-transform: uppercase;
+  }
+
+  .section-heading__eyebrow::before {
+    inline-size: var(--space-6);
+    block-size: 1px;
+    background: currentcolor;
+    content: "";
+  }
+
+  .section-heading__description {
+    color: var(--color-text-muted);
+    font-size: var(--text-lead);
+  }
+</style>

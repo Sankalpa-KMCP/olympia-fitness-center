@@ -1,0 +1,34 @@
+---
+type ContainerElement = "div" | "main";
+type ContainerSize = "prose" | "content" | "wide";
+
+interface Props {
+  as?: ContainerElement;
+  size?: ContainerSize;
+  class?: string;
+}
+
+const {
+  as: Tag = "div",
+  size = "content",
+  class: className,
+}: Props = Astro.props;
+---
+
+<Tag class:list={["u-container", `container--${size}`, className]}>
+  <slot />
+</Tag>
+
+<style>
+  .container--prose {
+    --container-max: var(--width-prose);
+  }
+
+  .container--content {
+    --container-max: var(--width-content);
+  }
+
+  .container--wide {
+    --container-max: var(--width-wide);
+  }
+</style>

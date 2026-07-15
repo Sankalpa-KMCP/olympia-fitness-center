@@ -1,0 +1,69 @@
+---
+import { externalDestinations } from "../../config/site";
+import type {
+  IndexingState,
+  OpenGraphMetadata,
+  StructuredData,
+} from "../../types/seo";
+import {
+  createCanonicalHref,
+  getRobotsContent,
+  serializeStructuredData,
+} from "../../utils/seo";
+
+interface Props {
+  title: string;
+  description: string;
+  indexing?: IndexingState;
+  canonicalPath?: string;
+  openGraph?: OpenGraphMetadata;
+  structuredData?: StructuredData;
+}
+
+const {
+  title,
+  description,
+  indexing = "index",
+  canonicalPath,
+  openGraph,
+  structuredData,
+}: Props = Astro.props;
+
+if (!title.trim() || !description.trim()) {
+  throw new TypeError("SeoHead requires a non-empty title and description.");
+}
+
+const robotsContent = getRobotsContent(indexing);
+const canonicalHref = createCanonicalHref(
+  externalDestinations.canonicalOrigin,
+  canonicalPath,
+);
+const structuredDataJson = serializeStructuredData(structuredData);
+---
+
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width" />
+<title>{title}</title>
+<meta name="description" content={description} />
+{robotsContent && <meta name="robots" content={robotsContent} />}
+{canonicalHref && <link rel="canonical" href={canonicalHref} />}
+
+{
+  openGraph && (
+    <>
+      <meta property="og:title" content={openGraph.title} />
+      <meta property="og:description" content={openGraph.description} />
+      <meta property="og:type" content={openGraph.type ?? "website"} />
+    </>
+  )
+}
+
+{
+  structuredDataJson && (
+    <script
+      is:inline
+      type="application/ld+json"
+      set:html={structuredDataJson}
+    />
+  )
+}

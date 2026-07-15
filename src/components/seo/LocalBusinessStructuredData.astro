@@ -1,0 +1,16 @@
+---
+import { buildLocalBusinessStructuredData } from "../../utils/local-business-schema";
+import { serializeStructuredData } from "../../utils/seo";
+
+const structuredDataJson = serializeStructuredData(
+  buildLocalBusinessStructuredData(),
+);
+
+if (!structuredDataJson) {
+  throw new TypeError(
+    "Local business structured data could not be serialized.",
+  );
+}
+---
+
+<script is:inline type="application/ld+json" set:html={structuredDataJson} />

@@ -1,0 +1,103 @@
+---
+import { businessAddress } from "../../data/business";
+import { regularOpeningHours } from "../../data/business";
+import { zumbaSchedule } from "../../data/zumba";
+import { formatLocalTime } from "../../utils/business-formatting";
+
+const splitHours = regularOpeningHours[0].periods
+  .map(
+    (period) =>
+      `${formatLocalTime(period.opens)}–${formatLocalTime(period.closes)}`,
+  )
+  .join(" + ");
+const weeklyZumbaDays = zumbaSchedule.reduce(
+  (total, session) => total + session.days.length,
+  0,
+);
+const items = [
+  `${businessAddress.locality}, ${businessAddress.country}`,
+  `Monday–Saturday ${splitHours}`,
+  `Zumba ${weeklyZumbaDays} days weekly`,
+  "Direct phone and email enquiries",
+] as const;
+const accessibleSummary = items.join("; ");
+---
+
+<div class="performance-rail">
+  <span class="u-sr-only">{accessibleSummary}</span>
+  <div class="performance-rail__track" aria-hidden="true">
+    {
+      [0, 1].map(() => (
+        <div class="performance-rail__group">
+          {items.map((item) => (
+            <span>
+              <i>●</i>
+              {item}
+            </span>
+          ))}
+        </div>
+      ))
+    }
+  </div>
+</div>
+
+<style>
+  .performance-rail {
+    overflow: hidden;
+    border-block-end: var(--border-thin) solid rgb(16 32 6 / 18%);
+    background: var(--color-accent);
+    color: var(--color-on-accent);
+  }
+
+  .performance-rail__track {
+    display: flex;
+    inline-size: max-content;
+    animation: performance-rail 34s linear infinite;
+  }
+
+  .performance-rail__group {
+    display: flex;
+    min-inline-size: max-content;
+  }
+
+  .performance-rail span {
+    display: inline-flex;
+    min-block-size: 1.85rem;
+    padding-inline: clamp(1rem, 2.5vw, 2.5rem);
+    gap: var(--space-3);
+    align-items: center;
+    font-family: var(--font-mono);
+    font-size: 0.65rem;
+    font-weight: 700;
+    letter-spacing: var(--tracking-label);
+    line-height: 1;
+    text-transform: uppercase;
+    white-space: nowrap;
+  }
+
+  .performance-rail i {
+    font-size: 0.45rem;
+    font-style: normal;
+  }
+
+  @keyframes performance-rail {
+    to {
+      transform: translateX(-50%);
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .performance-rail__track {
+      inline-size: auto;
+      animation: none;
+    }
+
+    .performance-rail__group {
+      flex-wrap: wrap;
+    }
+
+    .performance-rail__group:last-child {
+      display: none;
+    }
+  }
+</style>

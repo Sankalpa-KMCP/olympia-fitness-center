@@ -1,0 +1,81 @@
+---
+import { siteRoutes, type SiteRoutePath } from "../../config/routes";
+import { businessIdentity } from "../../data/business";
+import Container from "../primitives/Container.astro";
+import PrimaryNav from "./PrimaryNav.astro";
+import PerformanceRail from "./PerformanceRail.astro";
+
+interface Props {
+  currentPath: SiteRoutePath;
+}
+
+const { currentPath }: Props = Astro.props;
+---
+
+<header class="site-header">
+  <PerformanceRail />
+  <Container class="site-header__inner" size="wide">
+    <a class="site-header__brand" href={siteRoutes.home.path}>
+      <span aria-hidden="true">OF</span>
+      <strong>{businessIdentity.name}</strong>
+    </a>
+    <PrimaryNav currentPath={currentPath} />
+  </Container>
+</header>
+
+<style>
+  .site-header {
+    position: sticky;
+    inset-block-start: 0;
+    z-index: var(--layer-raised);
+    border-block-end: var(--border-thin) solid rgb(255 255 255 / 7%);
+    background: rgb(7 16 14 / 82%);
+    backdrop-filter: blur(1rem);
+  }
+
+  .site-header__inner {
+    position: relative;
+    display: grid;
+    min-block-size: 4.8rem;
+    padding-block: var(--space-3);
+    grid-template-columns: minmax(0, 1fr) auto;
+    align-items: center;
+    gap: var(--space-4);
+  }
+
+  .site-header__brand {
+    display: inline-flex;
+    max-inline-size: 20rem;
+    gap: var(--space-3);
+    align-items: center;
+    color: var(--color-text);
+    font-family: var(--font-display);
+    font-size: var(--text-body);
+    font-weight: 720;
+    letter-spacing: var(--tracking-tight);
+    line-height: var(--leading-heading);
+    text-decoration: none;
+  }
+
+  .site-header__brand > span {
+    display: grid;
+    inline-size: 2.75rem;
+    block-size: 2.75rem;
+    border-radius: 50%;
+    place-items: center;
+    background: var(--color-accent);
+    color: var(--color-on-accent);
+    font-family: var(--font-display);
+    font-size: var(--text-sm);
+    font-weight: 800;
+    letter-spacing: -0.08em;
+  }
+
+  .site-header__brand strong {
+    line-height: 1.05;
+  }
+
+  .site-header__brand:hover {
+    color: var(--color-accent);
+  }
+</style>

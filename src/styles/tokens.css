@@ -1,0 +1,89 @@
+:root {
+  color-scheme: dark;
+
+  /* Semantic color roles */
+  --color-canvas: #07100e;
+  --color-surface: #0d1916;
+  --color-surface-raised: #14231f;
+  --color-text: #f7f3e9;
+  --color-text-muted: #a9b8b2;
+  --color-accent: #c9ff62;
+  --color-accent-hover: #b5ee4b;
+  --color-on-accent: #102006;
+  --color-coral: #ff7964;
+  --color-plum: #6a365c;
+  --color-border: #2a4039;
+  --color-border-strong: #486057;
+  --color-focus: #8be9ff;
+  --color-focus-outer: #020807;
+  --color-selection: var(--color-accent);
+  --color-on-selection: var(--color-on-accent);
+
+  /* System typography */
+  --font-body:
+    "Aptos", "Segoe UI Variable Text", "Segoe UI", system-ui, sans-serif;
+  --font-display:
+    "Aptos Display", "Segoe UI Variable Display", "Segoe UI", system-ui,
+    sans-serif;
+  --font-editorial: Iowan Old Style, Baskerville, "Times New Roman", serif;
+  --font-mono: "Cascadia Mono", "SFMono-Regular", Consolas, monospace;
+  --text-xs: clamp(0.75rem, 0.72rem + 0.12vw, 0.8125rem);
+  --text-sm: clamp(0.875rem, 0.84rem + 0.15vw, 0.9375rem);
+  --text-body: clamp(1rem, 0.96rem + 0.2vw, 1.125rem);
+  --text-lead: clamp(1.125rem, 1.02rem + 0.48vw, 1.375rem);
+  --text-heading-sm: clamp(1.5rem, 1.28rem + 1vw, 2rem);
+  --text-heading-md: clamp(2rem, 1.55rem + 2vw, 3rem);
+  --text-heading-lg: clamp(3.1rem, 1.7rem + 5.4vw, 6.5rem);
+  --text-display: clamp(3.6rem, 1.55rem + 8vw, 8.75rem);
+  --leading-tight: 0.92;
+  --leading-heading: 1.08;
+  --leading-body: 1.65;
+  --tracking-tight: -0.05em;
+  --tracking-label: 0.16em;
+
+  /* 4px-based spacing scale */
+  --space-1: 0.25rem;
+  --space-2: 0.5rem;
+  --space-3: 0.75rem;
+  --space-4: 1rem;
+  --space-5: 1.25rem;
+  --space-6: 1.5rem;
+  --space-8: 2rem;
+  --space-10: 2.5rem;
+  --space-12: 3rem;
+  --space-16: 4rem;
+  --space-20: 5rem;
+  --space-24: 6rem;
+  --gutter: clamp(1rem, 0.7rem + 1.5vw, 2rem);
+  --section-space: clamp(4.75rem, 2.75rem + 7vw, 9rem);
+  --section-space-compact: clamp(3rem, 1.8rem + 4vw, 5.5rem);
+
+  /* Content widths */
+  --width-prose: 42rem;
+  --width-content: 72rem;
+  --width-wide: 90rem;
+
+  /* Shape, borders, and elevation */
+  --radius-sm: 0.625rem;
+  --radius-md: 1rem;
+  --radius-lg: 1.75rem;
+  --radius-xl: 2.75rem;
+  --radius-pill: 999rem;
+  --border-thin: 1px;
+  --border-strong: 2px;
+  --shadow-sm: 0 0.75rem 2rem rgb(0 0 0 / 18%);
+  --shadow-md: 0 1.75rem 5rem rgb(0 0 0 / 34%);
+  --shadow-glow: 0 0 4rem rgb(201 255 98 / 10%);
+
+  /* Interaction and layering */
+  --target-min: 2.75rem;
+  --duration-fast: 120ms;
+  --duration-standard: 220ms;
+  --ease-standard: cubic-bezier(0.2, 0.8, 0.2, 1);
+  --focus-width: 3px;
+  --focus-offset: 3px;
+  --layer-base: 0;
+  --layer-raised: 10;
+  --layer-overlay: 100;
+  --layer-modal: 1000;
+}
