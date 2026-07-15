@@ -1,0 +1,19 @@
+# Dependencies
+node_modules/
+
+# Astro build output and generated files
+dist/
+.astro/
+playwright-report/
+test-results/
+
+# Local environment files
+.env
+.env.*
+!.env.example
+
+# Tool and operating-system noise
+*.log
+npm-debug.log*
+.DS_Store
+Thumbs.db
