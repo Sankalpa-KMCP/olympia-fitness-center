@@ -2,6 +2,8 @@
 
 Static Astro website with project-local unit, browser, accessibility, and SEO validation.
 
+Live site: <https://sankalpa-kmcp.github.io/olympia-fitness-center/>
+
 ## Requirements
 
 - Node.js 22.12.0 or newer
@@ -34,3 +36,7 @@ npm run test:seo
 Run `npm run format` to apply repository formatting. Use `npm run test:watch` while working on unit tests.
 
 The browser suites build the production site automatically, start a local production preview, and use Playwright's managed Chromium installation. Re-run `npx playwright install chromium` after updating Playwright.
+
+## Deployment
+
+Pushes to `main` run the complete quality suite and deploy the static build to GitHub Pages. The deployment workflow supplies the repository base path only for the hosted build, so local development continues to run from `/`.

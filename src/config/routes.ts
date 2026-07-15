@@ -4,13 +4,31 @@ export interface SiteRoute {
   readonly navigation: boolean;
 }
 
+const baseUrl = import.meta.env.BASE_URL.replace(/\/$/, "");
+
+function withBase(path: `/${string}`): `/${string}` {
+  return `${baseUrl}${path}` as `/${string}`;
+}
+
 export const siteRoutes = {
-  home: { path: "/", label: "Home", navigation: true },
-  services: { path: "/services/", label: "Services", navigation: true },
-  zumba: { path: "/zumba/", label: "Zumba", navigation: true },
-  contact: { path: "/contact/", label: "Contact", navigation: true },
+  home: { path: withBase("/"), label: "Home", navigation: true },
+  services: {
+    path: withBase("/services/"),
+    label: "Services",
+    navigation: true,
+  },
+  zumba: {
+    path: withBase("/zumba/"),
+    label: "Zumba",
+    navigation: true,
+  },
+  contact: {
+    path: withBase("/contact/"),
+    label: "Contact",
+    navigation: true,
+  },
   notFound: {
-    path: "/404.html",
+    path: withBase("/404.html"),
     label: "Page not found",
     navigation: false,
   },
