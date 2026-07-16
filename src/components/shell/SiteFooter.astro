@@ -1,6 +1,7 @@
 ---
 import { businessAddress, businessIdentity } from "../../data/business";
 import ContactActions from "../business/ContactActions.astro";
+import OlympiaLogo from "../brand/OlympiaLogo.astro";
 import HoursDisplay from "../business/HoursDisplay.astro";
 import Container from "../primitives/Container.astro";
 ---
@@ -9,7 +10,8 @@ import Container from "../primitives/Container.astro";
   <Container size="wide">
     <div class="site-footer__grid">
       <section class="site-footer__identity" aria-labelledby="footer-identity">
-        <h2 id="footer-identity">{businessIdentity.name}</h2>
+        <OlympiaLogo class="site-footer__logo" />
+        <h2 id="footer-identity" class="u-sr-only">{businessIdentity.name}</h2>
         <p>{businessIdentity.category}</p>
         <address>
           {businessAddress.streetAddress}, {businessAddress.locality}, {
@@ -58,11 +60,10 @@ import Container from "../primitives/Container.astro";
     gap: var(--space-2);
   }
 
-  .site-footer__identity h2 {
-    color: var(--color-accent);
-    font-family: var(--font-display);
-    font-size: var(--text-heading-md);
-    letter-spacing: var(--tracking-tight);
+  .site-footer__identity :global(.site-footer__logo) {
+    inline-size: min(100%, 18rem);
+    block-size: auto;
+    margin-block-end: var(--space-2);
   }
 
   .site-footer__identity p,

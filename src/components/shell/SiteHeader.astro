@@ -1,6 +1,7 @@
 ---
 import { siteRoutes, type SiteRoutePath } from "../../config/routes";
 import { businessIdentity } from "../../data/business";
+import OlympiaLogo from "../brand/OlympiaLogo.astro";
 import Container from "../primitives/Container.astro";
 import PrimaryNav from "./PrimaryNav.astro";
 import PerformanceRail from "./PerformanceRail.astro";
@@ -15,9 +16,12 @@ const { currentPath }: Props = Astro.props;
 <header class="site-header">
   <PerformanceRail />
   <Container class="site-header__inner" size="wide">
-    <a class="site-header__brand" href={siteRoutes.home.path}>
-      <span aria-hidden="true">OF</span>
-      <strong>{businessIdentity.name}</strong>
+    <a
+      class="site-header__brand"
+      href={siteRoutes.home.path}
+      aria-label={`${businessIdentity.name} home`}
+    >
+      <OlympiaLogo />
     </a>
     <PrimaryNav currentPath={currentPath} />
   </Container>
@@ -45,37 +49,20 @@ const { currentPath }: Props = Astro.props;
 
   .site-header__brand {
     display: inline-flex;
-    max-inline-size: 20rem;
-    gap: var(--space-3);
+    inline-size: clamp(8.75rem, 9vw + 6rem, 13rem);
+    block-size: 3.35rem;
     align-items: center;
-    color: var(--color-text);
-    font-family: var(--font-display);
-    font-size: var(--text-body);
-    font-weight: 720;
-    letter-spacing: var(--tracking-tight);
-    line-height: var(--leading-heading);
     text-decoration: none;
-  }
-
-  .site-header__brand > span {
-    display: grid;
-    inline-size: 2.75rem;
-    block-size: 2.75rem;
-    border-radius: 50%;
-    place-items: center;
-    background: var(--color-accent);
-    color: var(--color-on-accent);
-    font-family: var(--font-display);
-    font-size: var(--text-sm);
-    font-weight: 800;
-    letter-spacing: -0.08em;
-  }
-
-  .site-header__brand strong {
-    line-height: 1.05;
+    transition: filter var(--duration-standard) var(--ease-standard);
   }
 
   .site-header__brand:hover {
-    color: var(--color-accent);
+    filter: drop-shadow(0 0 0.75rem rgb(217 31 61 / 34%)) brightness(1.08);
+  }
+
+  @media (max-width: 23rem) {
+    .site-header__brand {
+      inline-size: 7.75rem;
+    }
   }
 </style>
