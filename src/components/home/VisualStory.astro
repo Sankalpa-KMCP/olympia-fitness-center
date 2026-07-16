@@ -28,8 +28,8 @@ const headingId = "inside-olympia-heading";
       <Image
         src={olympiaInterior}
         alt="Olympia Fitness Center training floor with strength equipment"
-        widths={[640, 960, 1280]}
-        sizes="(min-width: 64rem) 58vw, 94vw"
+        widths={[640, 960, 1280, 1600]}
+        sizes="(min-width: 64rem) 90vw, 94vw"
         quality={84}
       />
       <figcaption>
@@ -52,7 +52,7 @@ const headingId = "inside-olympia-heading";
 
   .visual-story__feature {
     position: relative;
-    min-block-size: 21rem;
+    min-block-size: 18rem;
     margin: 0;
     margin-block-start: var(--space-10);
     overflow: hidden;
@@ -72,7 +72,7 @@ const headingId = "inside-olympia-heading";
   .visual-story__feature :global(img) {
     inline-size: 100%;
     block-size: 100%;
-    min-block-size: 21rem;
+    min-block-size: 18rem;
     object-fit: cover;
     object-position: center 56%;
     transition:
@@ -107,21 +107,21 @@ const headingId = "inside-olympia-heading";
     }
 
     .visual-story__feature {
-      min-block-size: 31rem;
+      min-block-size: 24rem;
     }
 
     .visual-story__feature :global(img) {
-      min-block-size: 31rem;
+      min-block-size: 24rem;
     }
   }
 
   @media (min-width: 64rem) {
     .visual-story__feature {
-      min-block-size: 42rem;
+      min-block-size: 28rem;
     }
 
     .visual-story__feature :global(img) {
-      min-block-size: 42rem;
+      min-block-size: 28rem;
     }
   }
 </style>
