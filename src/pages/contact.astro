@@ -1,6 +1,4 @@
 ---
-import { Image } from "astro:assets";
-import olympiaMapsPhoto from "../assets/olympia-google-maps-photo.jpg";
 import ContactActions from "../components/business/ContactActions.astro";
 import HoursDisplay from "../components/business/HoursDisplay.astro";
 import VisitDetails from "../components/contact/VisitDetails.astro";
@@ -45,36 +43,6 @@ const description = `Call or email ${businessIdentity.name} and view its ${busin
       >
     </Fragment>
   </PageHero>
-
-  <Section class="contact-real-place" aria-labelledby="real-place-heading">
-    <Container size="wide">
-      <div class="contact-real-place__grid">
-        <figure data-media-review="launch-rights">
-          <Image
-            src={olympiaMapsPhoto}
-            alt="Olympia Fitness Center interior with strength equipment and the Olympia wall sign"
-            widths={[480, 720, 960]}
-            sizes="(min-width: 64rem) 48vw, 92vw"
-            quality={84}
-          />
-          <figcaption>
-            Inside the Olympia Fitness Center training floor.
-          </figcaption>
-        </figure>
-
-        <div class="contact-real-place__copy">
-          <p>Inside Olympia</p>
-          <h2 id="real-place-heading">A real look at the Wadduwa gym.</h2>
-          <span>
-            This listing image shows the Olympia wall mark and part of the
-            training floor. Contact the gym directly when you want to plan a
-            first visit.
-          </span>
-          <ButtonLink href="#visit-details">Plan your visit</ButtonLink>
-        </div>
-      </div>
-    </Container>
-  </Section>
 
   <Section
     tone="surface"
@@ -189,7 +157,9 @@ const description = `Call or email ${businessIdentity.name} and view its ${busin
             <li>Personal-training-related enquiries</li>
             <li>Opening-hour confirmation for a planned visit</li>
           </ul>
-          <ContactActions />
+          <ButtonLink href="#visit-details" variant="secondary">
+            Use contact details above
+          </ButtonLink>
         </article>
 
         <article
@@ -224,70 +194,6 @@ const description = `Call or email ${businessIdentity.name} and view its ${busin
 <style>
   .contact-map__embed {
     margin-block-start: var(--space-10);
-  }
-
-  .contact-real-place__grid {
-    display: grid;
-    gap: var(--space-10);
-    align-items: center;
-  }
-
-  .contact-real-place figure {
-    position: relative;
-    margin: 0;
-    overflow: hidden;
-    border-radius: var(--radius-xl);
-  }
-
-  .contact-real-place figure::before {
-    position: absolute;
-    z-index: -1;
-    inset: 0;
-    border: var(--border-thin) solid rgb(201 255 98 / 40%);
-    border-radius: var(--radius-xl);
-    content: "";
-    pointer-events: none;
-    transform: scale(0.97);
-  }
-
-  .contact-real-place figure :global(img) {
-    inline-size: 100%;
-    max-block-size: 40rem;
-    border-radius: var(--radius-xl);
-    object-fit: cover;
-    object-position: center 56%;
-    box-shadow: var(--shadow-md);
-  }
-
-  .contact-real-place figcaption {
-    max-inline-size: 50rem;
-    margin-block-start: var(--space-3);
-    color: var(--color-text-muted);
-    font-size: var(--text-xs);
-  }
-
-  .contact-real-place__copy {
-    display: grid;
-    gap: var(--space-5);
-  }
-
-  .contact-real-place__copy > p {
-    color: var(--color-accent);
-    font-family: var(--font-mono);
-    font-size: var(--text-xs);
-    font-weight: 650;
-    letter-spacing: var(--tracking-label);
-    text-transform: uppercase;
-  }
-
-  .contact-real-place__copy > span {
-    max-inline-size: 34rem;
-    color: var(--color-text-muted);
-    font-size: var(--text-lead);
-  }
-
-  .contact-real-place__copy .button-link {
-    justify-self: start;
   }
 
   .contact-visit__grid,
@@ -353,6 +259,7 @@ const description = `Call or email ${businessIdentity.name} and view its ${busin
   }
 
   .contact-hours__notice .button-link,
+  .contact-next-steps__membership .button-link,
   .contact-next-steps__zumba .button-link {
     margin-block-start: var(--space-3);
     justify-self: start;
@@ -407,11 +314,6 @@ const description = `Call or email ${businessIdentity.name} and view its ${busin
   }
 
   @media (min-width: 64rem) {
-    .contact-real-place__grid {
-      grid-template-columns: minmax(0, 1.1fr) minmax(20rem, 0.9fr);
-      gap: var(--space-16);
-    }
-
     .contact-visit__grid {
       grid-template-columns: minmax(16rem, 0.55fr) minmax(0, 1.45fr);
       align-items: stretch;
