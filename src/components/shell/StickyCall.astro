@@ -1,0 +1,44 @@
+---
+import { primaryContact } from "../../data/business";
+import { createTelHref } from "../../utils/contact-links";
+
+const telephoneHref = createTelHref(primaryContact.phone.international);
+---
+
+<a class="sticky-call" href={telephoneHref}>
+  Call {primaryContact.phone.display}
+</a>
+
+<style>
+  .sticky-call {
+    position: fixed;
+    z-index: var(--layer-overlay);
+    inset-block-end: calc(var(--space-4) + env(safe-area-inset-bottom, 0px));
+    inset-inline: var(--space-4);
+    display: grid;
+    min-block-size: var(--target-min);
+    padding: var(--space-3) var(--space-5);
+    border: var(--border-thin) solid rgb(16 32 6 / 35%);
+    border-radius: var(--radius-pill);
+    background: var(--color-accent);
+    color: var(--color-on-accent);
+    font-family: var(--font-body);
+    font-size: var(--text-sm);
+    font-weight: 700;
+    letter-spacing: 0.02em;
+    text-align: center;
+    text-decoration: none;
+    place-items: center;
+    box-shadow: var(--shadow-md);
+  }
+
+  .sticky-call:hover {
+    background: var(--color-accent-hover);
+  }
+
+  @media (min-width: 48rem) {
+    .sticky-call {
+      display: none;
+    }
+  }
+</style>
