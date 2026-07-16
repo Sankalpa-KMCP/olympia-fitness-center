@@ -1,6 +1,4 @@
 ---
-import { Image } from "astro:assets";
-import olympiaInterior from "../../assets/olympia-google-maps-photo.jpg";
 import { siteRoutes } from "../../config/routes";
 import ButtonLink from "../primitives/ButtonLink.astro";
 import Container from "../primitives/Container.astro";
@@ -23,19 +21,6 @@ const headingId = "inside-olympia-heading";
         See the gym in person
       </ButtonLink>
     </div>
-
-    <figure class="visual-story__feature">
-      <Image
-        src={olympiaInterior}
-        alt="Olympia Fitness Center training floor with strength equipment"
-        widths={[640, 960, 1280, 1600]}
-        sizes="(min-width: 64rem) 90vw, 94vw"
-        quality={84}
-      />
-      <figcaption>
-        <strong>Train local.</strong> Build lasting momentum.
-      </figcaption>
-    </figure>
   </Container>
 </Section>
 
@@ -50,78 +35,9 @@ const headingId = "inside-olympia-heading";
     justify-self: start;
   }
 
-  .visual-story__feature {
-    position: relative;
-    min-block-size: 18rem;
-    margin: 0;
-    margin-block-start: var(--space-10);
-    overflow: hidden;
-    border: var(--border-thin) solid var(--color-border);
-    border-radius: var(--radius-lg);
-    background: var(--color-surface);
-  }
-
-  .visual-story__feature::after {
-    position: absolute;
-    inset: 0;
-    background: linear-gradient(180deg, transparent 48%, rgb(3 8 7 / 82%));
-    content: "";
-    pointer-events: none;
-  }
-
-  .visual-story__feature :global(img) {
-    inline-size: 100%;
-    block-size: 100%;
-    min-block-size: 18rem;
-    object-fit: cover;
-    object-position: center 56%;
-    transition:
-      transform 700ms var(--ease-standard),
-      filter 500ms var(--ease-standard);
-  }
-
-  .visual-story__feature figcaption {
-    position: absolute;
-    z-index: 1;
-    inset-block-end: var(--space-5);
-    inset-inline: var(--space-5);
-    max-inline-size: 26rem;
-    color: var(--color-text-muted);
-    font-size: var(--text-sm);
-  }
-
-  .visual-story__feature figcaption strong {
-    color: var(--color-text);
-  }
-
-  @media (hover: hover) and (pointer: fine) {
-    .visual-story__feature:hover :global(img) {
-      filter: contrast(1.05) saturate(1.08);
-      transform: scale(1.035);
-    }
-  }
-
   @media (min-width: 48rem) {
     .visual-story__intro {
       grid-template-columns: minmax(0, 1fr) auto;
-    }
-
-    .visual-story__feature {
-      min-block-size: 24rem;
-    }
-
-    .visual-story__feature :global(img) {
-      min-block-size: 24rem;
-    }
-  }
-
-  @media (min-width: 64rem) {
-    .visual-story__feature {
-      min-block-size: 28rem;
-    }
-
-    .visual-story__feature :global(img) {
-      min-block-size: 28rem;
     }
   }
 </style>

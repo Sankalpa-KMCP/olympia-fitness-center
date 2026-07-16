@@ -47,17 +47,17 @@ for (const route of publicRoutes) {
   });
 }
 
-test("home visual story shows only the gym floor photo", async ({ page }) => {
+test("home visual story is copy-only without gallery images", async ({
+  page,
+}) => {
   await page.goto("/");
 
   const story = page.locator(".visual-story");
 
   await expect(
-    story.getByRole("img", {
-      name: "Olympia Fitness Center training floor with strength equipment",
-    }),
+    story.getByRole("heading", { name: "Serious training. Real energy." }),
   ).toBeVisible();
-  await expect(story.getByRole("img")).toHaveCount(1);
+  await expect(story.getByRole("img")).toHaveCount(0);
 });
 
 test("custom and disabled routes return the custom 404", async ({ page }) => {
