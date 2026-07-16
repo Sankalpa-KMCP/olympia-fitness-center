@@ -4,16 +4,22 @@ import type { ServiceCategory } from "../../types/business";
 interface Props {
   service: ServiceCategory;
   description: string;
+  href: string;
 }
 
-const { service, description }: Props = Astro.props;
+const { service, description, href }: Props = Astro.props;
 ---
 
-<article class="service-card" id={service.id}>
+<a
+  class="service-card"
+  id={service.id}
+  href={href}
+  aria-label={`Enquire about ${service.label}`}
+>
   <p aria-hidden="true">Train with intent</p>
   <h3>{service.label}</h3>
   <span>{description}</span>
-</article>
+</a>
 
 <style>
   .service-card {
@@ -24,8 +30,10 @@ const { service, description }: Props = Astro.props;
     border: var(--border-thin) solid var(--color-border);
     border-radius: var(--radius-lg);
     background: rgb(255 255 255 / 2%);
+    color: inherit;
     gap: var(--space-4);
     overflow: hidden;
+    text-decoration: none;
     transition:
       transform var(--duration-standard) var(--ease-standard),
       border-color var(--duration-standard) var(--ease-standard),
@@ -46,11 +54,13 @@ const { service, description }: Props = Astro.props;
     transition: transform var(--duration-standard) var(--ease-standard);
   }
 
-  .service-card:hover::after {
+  .service-card:hover::after,
+  .service-card:focus-visible::after {
     transform: scale(6);
   }
 
-  .service-card:hover {
+  .service-card:hover,
+  .service-card:focus-visible {
     border-color: var(--color-border-strong);
     background: var(--color-surface-raised);
     transform: translateY(-4px);
