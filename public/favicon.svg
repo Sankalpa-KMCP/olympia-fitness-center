@@ -1,6 +1,6 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
   <rect width="64" height="64" rx="16" fill="#07100e"/>
   <ellipse cx="32" cy="32" rx="23" ry="14" transform="rotate(-18 32 32)" fill="none" stroke="#f6f2e9" stroke-width="8"/>
-  <ellipse cx="32" cy="32" rx="23" ry="14" transform="rotate(-18 32 32)" fill="none" stroke="#d91f3d" stroke-width="4"/>
-  <text x="10" y="45" fill="#f6f2e9" stroke="#d91f3d" stroke-width="1.6" paint-order="stroke fill" font-family="Georgia,serif" font-size="37" font-style="italic" font-weight="900">O</text>
+  <ellipse cx="32" cy="32" rx="23" ry="14" transform="rotate(-18 32 32)" fill="none" stroke="#c9ff62" stroke-width="4"/>
+  <text x="10" y="45" fill="#f6f2e9" stroke="#c9ff62" stroke-width="1.6" paint-order="stroke fill" font-family="Georgia,serif" font-size="37" font-style="italic" font-weight="900">O</text>
 </svg>
