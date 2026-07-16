@@ -13,6 +13,12 @@ import { businessAddress, businessIdentity } from "../../data/business";
     </address>
   </article>
 
+  <article aria-labelledby="plus-code-heading">
+    <p>Plus Code</p>
+    <h3 id="plus-code-heading">Find the exact location</h3>
+    <span class="visit-details__plus-code">{businessAddress.plusCode}</span>
+  </article>
+
   <article aria-labelledby="arrival-heading">
     <p>First visit</p>
     <h3 id="arrival-heading">Arrive ready to train</h3>
@@ -69,6 +75,13 @@ import { businessAddress, businessIdentity } from "../../data/business";
     font-style: normal;
   }
 
+  .visit-details__plus-code {
+    font-family: var(--font-mono);
+    font-size: var(--text-sm);
+    font-weight: 700;
+    letter-spacing: 0.04em;
+  }
+
   @media (min-width: 48rem) {
     .visit-details {
       grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -76,6 +89,10 @@ import { businessAddress, businessIdentity } from "../../data/business";
 
     .visit-details article {
       padding: var(--space-8);
+    }
+
+    .visit-details article:last-child {
+      grid-column: 1 / -1;
     }
   }
 </style>
