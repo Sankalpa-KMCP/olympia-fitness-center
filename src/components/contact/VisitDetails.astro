@@ -1,23 +1,24 @@
 ---
 import { businessAddress, businessIdentity } from "../../data/business";
-import { formatPostalAddress } from "../../utils/business-formatting";
-
-const postalAddress = formatPostalAddress(businessAddress);
 ---
 
 <div class="visit-details" aria-label="Visit details">
   <article aria-labelledby="street-address-heading">
     <p>Street address</p>
     <h3 id="street-address-heading">Visit {businessIdentity.name}</h3>
-    <address>{postalAddress}</address>
+    <address>
+      {businessAddress.streetAddress}, {businessAddress.locality}, {
+        businessAddress.country
+      }
+    </address>
   </article>
 
-  <article aria-labelledby="plus-code-heading">
-    <p>Plus Code</p>
-    <h3 id="plus-code-heading">Location reference</h3>
-    <code>{businessAddress.plusCode}</code>
+  <article aria-labelledby="arrival-heading">
+    <p>First visit</p>
+    <h3 id="arrival-heading">Arrive ready to train</h3>
     <span>
-      Select this text and enter it into a map service manually when useful.
+      Use the map above for directions, and call ahead if you would like to
+      confirm opening hours or ask about joining.
     </span>
   </article>
 </div>
@@ -66,21 +67,6 @@ const postalAddress = formatPostalAddress(businessAddress);
   .visit-details article > span {
     color: var(--color-text-muted);
     font-style: normal;
-  }
-
-  .visit-details code {
-    display: block;
-    max-inline-size: 100%;
-    padding: var(--space-4);
-    border: var(--border-thin) solid var(--color-border);
-    border-radius: var(--radius-md);
-    background: var(--color-canvas);
-    color: var(--color-text);
-    font-family: var(--font-mono);
-    font-size: var(--text-lead);
-    font-weight: 700;
-    overflow-wrap: anywhere;
-    user-select: text;
   }
 
   @media (min-width: 48rem) {

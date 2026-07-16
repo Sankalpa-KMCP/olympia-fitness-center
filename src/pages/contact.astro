@@ -4,6 +4,7 @@ import olympiaMapsPhoto from "../assets/olympia-google-maps-photo.jpg";
 import ContactActions from "../components/business/ContactActions.astro";
 import HoursDisplay from "../components/business/HoursDisplay.astro";
 import VisitDetails from "../components/contact/VisitDetails.astro";
+import LocationMap from "../components/contact/LocationMap.astro";
 import PageHero from "../components/content/PageHero.astro";
 import SectionHeading from "../components/home/SectionHeading.astro";
 import ButtonLink from "../components/primitives/ButtonLink.astro";
@@ -21,7 +22,6 @@ import { createMailtoHref, createTelHref } from "../utils/contact-links";
 const route = siteRoutes.contact;
 const telephoneHref = createTelHref(primaryContact.phone.international);
 const emailHref = createMailtoHref(primaryContact.email);
-const directContactMethods = [telephoneHref, emailHref] as const;
 const description = `Call or email ${businessIdentity.name} and view its ${businessAddress.locality} address, Plus Code, and opening hours.`;
 ---
 
@@ -36,8 +36,6 @@ const description = `Call or email ${businessIdentity.name} and view its ${busin
     heading="Contact, visit, or ask about joining."
     headingId="contact-heading"
     description="Use the verified phone or email details to ask a question, plan a visit, or discuss current membership information directly with the gym."
-    metric={String(directContactMethods.length).padStart(2, "0")}
-    metricLabel="Direct contact methods"
   >
     <Fragment slot="actions">
       <ButtonLink href={telephoneHref}>
@@ -60,9 +58,7 @@ const description = `Call or email ${businessIdentity.name} and view its ${busin
             quality={84}
           />
           <figcaption>
-            Real Olympia Fitness Center photo sourced from its matching Google
-            Maps listing. Reuse permission must be confirmed before public
-            launch.
+            Inside the Olympia Fitness Center training floor.
           </figcaption>
         </figure>
 
@@ -81,6 +77,24 @@ const description = `Call or email ${businessIdentity.name} and view its ${busin
   </Section>
 
   <Section
+    tone="surface"
+    aria-labelledby="location-map-heading"
+    class="contact-map"
+  >
+    <Container size="wide">
+      <SectionHeading
+        eyebrow="Map and directions"
+        heading="Your next session starts here."
+        headingId="location-map-heading"
+        description="Preview the location below, then open the supplied Google Maps listing for turn-by-turn directions."
+      />
+      <div class="contact-map__embed">
+        <LocationMap />
+      </div>
+    </Container>
+  </Section>
+
+  <Section
     id="visit-details"
     tone="surface"
     aria-labelledby="visit-details-heading"
@@ -91,7 +105,7 @@ const description = `Call or email ${businessIdentity.name} and view its ${busin
         eyebrow="Verified details"
         heading="Plan a direct enquiry or visit."
         headingId="visit-details-heading"
-        description="Use the published contact and location information below. The Plus Code is provided as plain text rather than an active directions link."
+        description="Use the published contact and location information below, or call the gym before your first visit."
       />
 
       <div class="contact-visit__grid">
@@ -208,6 +222,10 @@ const description = `Call or email ${businessIdentity.name} and view its ${busin
 </BaseLayout>
 
 <style>
+  .contact-map__embed {
+    margin-block-start: var(--space-10);
+  }
+
   .contact-real-place__grid {
     display: grid;
     gap: var(--space-10);

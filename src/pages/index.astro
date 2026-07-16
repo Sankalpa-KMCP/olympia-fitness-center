@@ -1,15 +1,17 @@
 ---
 import { Image } from "astro:assets";
-import trainingHero from "../assets/training-hero.png";
+import trainingHero from "../assets/olympia-man-training.png";
 import ContactActions from "../components/business/ContactActions.astro";
 import HoursDisplay from "../components/business/HoursDisplay.astro";
 import SectionHeading from "../components/home/SectionHeading.astro";
 import TrainingOverview from "../components/home/TrainingOverview.astro";
+import VisualStory from "../components/home/VisualStory.astro";
 import ZumbaPreview from "../components/home/ZumbaPreview.astro";
 import ButtonLink from "../components/primitives/ButtonLink.astro";
 import Container from "../components/primitives/Container.astro";
 import Section from "../components/primitives/Section.astro";
 import { siteRoutes } from "../config/routes";
+import { externalDestinations } from "../config/site";
 import {
   businessAddress,
   businessIdentity,
@@ -17,30 +19,13 @@ import {
 } from "../data/business";
 import { facilityClaims, serviceCategories } from "../data/services";
 import BaseLayout from "../layouts/BaseLayout.astro";
-import { formatPostalAddress } from "../utils/business-formatting";
 import { createTelHref } from "../utils/contact-links";
+import { getEnabledExternalUrl } from "../utils/external-destinations";
 
 const route = siteRoutes.home;
 const telephoneHref = createTelHref(primaryContact.phone.international);
-const postalAddress = formatPostalAddress(businessAddress);
-const serviceLabels = Object.fromEntries(
-  serviceCategories.map((service) => [service.id, service.label]),
-) as Record<(typeof serviceCategories)[number]["id"], string>;
-const heroServiceOrder = [
-  "general-fitness",
-  "strength-training",
-  "physique-training",
-  "bodybuilding",
-  "muscle-gain",
-  "weight-loss",
-  "personal-training-enquiries",
-] as const satisfies readonly (typeof serviceCategories)[number]["id"][];
-const heroPositioning = new Intl.ListFormat("en", {
-  style: "long",
-  type: "conjunction",
-}).format(
-  heroServiceOrder.map((serviceId) => serviceLabels[serviceId].toLowerCase()),
-);
+const postalAddress = `${businessAddress.streetAddress}, ${businessAddress.locality}, ${businessAddress.country}`;
+const directionsUrl = getEnabledExternalUrl(externalDestinations.googleMaps);
 const homepageDescription = `Explore ${serviceCategories
   .map((service) => service.label.toLowerCase())
   .join(
@@ -58,17 +43,14 @@ const homepageDescription = `Explore ${serviceCategories
     <Container size="wide">
       <div class="home-hero__grid">
         <div class="home-hero__copy">
-          <p class="home-hero__eyebrow">
-            {businessAddress.locality}, {businessAddress.country} / {
-              businessIdentity.category
-            }
-          </p>
+          <p class="home-hero__eyebrow">Wadduwa's performance-focused gym</p>
           <h1 id="home-heading">
             <span>{businessIdentity.name}</span>
-            Train with <em>purpose.</em><br />Move with confidence.
+            Build strength.<br /><em>Own your progress.</em>
           </h1>
           <p class="home-hero__lead">
-            Training options include {heroPositioning}.
+            A focused place for strength, fitness, physique, and movement—backed
+            by the equipment and energy to keep you showing up.
           </p>
 
           <ul
@@ -85,6 +67,17 @@ const homepageDescription = `Explore ${serviceCategories
             <ButtonLink href={siteRoutes.services.path} variant="secondary">
               Explore services
             </ButtonLink>
+            {
+              directionsUrl && (
+                <ButtonLink
+                  href={directionsUrl}
+                  variant="secondary"
+                  target="_blank"
+                >
+                  Get directions
+                </ButtonLink>
+              )
+            }
           </div>
         </div>
 
@@ -99,14 +92,14 @@ const homepageDescription = `Explore ${serviceCategories
               fetchpriority="high"
               quality={86}
             />
-            <figcaption>AI-generated editorial image</figcaption>
+            <figcaption>Strength starts with showing up.</figcaption>
           </figure>
           <aside
             class="home-hero__environment"
             aria-labelledby="home-environment-heading"
           >
             <div class="home-hero__locator" aria-label="Location reference">
-              <span>{businessAddress.postalCode}</span>
+              <span>Galle Road</span>
               <strong>{businessAddress.locality}</strong>
             </div>
             <p class="home-hero__panel-label">Gym-provided information</p>
@@ -129,6 +122,8 @@ const homepageDescription = `Explore ${serviceCategories
   </Section>
 
   <TrainingOverview />
+
+  <VisualStory />
 
   <Section id="visit" aria-labelledby="visit-heading" class="home-visit">
     <Container size="wide">

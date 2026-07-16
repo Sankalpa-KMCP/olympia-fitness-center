@@ -12,7 +12,8 @@ export const externalDestinations = {
   },
   googleMaps: {
     label: "Google Maps directions",
-    state: "unverified",
+    state: "verified",
+    url: "https://maps.app.goo.gl/kswD5wDU4rBQwje68",
   },
   facebook: {
     label: "Facebook",

@@ -28,11 +28,9 @@ const facilityHeadingId = "facility-claims-heading";
     <div class="training-overview__grid">
       <ol class="training-overview__services" aria-label="Training categories">
         {
-          serviceCategories.map((service, index) => (
+          serviceCategories.map((service) => (
             <li>
-              <span aria-hidden="true">
-                {String(index + 1).padStart(2, "0")}
-              </span>
+              <span aria-hidden="true">↗</span>
               <strong>{service.label}</strong>
             </li>
           ))
@@ -71,11 +69,11 @@ const facilityHeadingId = "facility-claims-heading";
     inset-block-start: -0.18em;
     inset-inline-end: -0.04em;
     color: rgb(201 255 98 / 3.5%);
-    content: "07";
+    content: "OLYMPIA";
     font-family: var(--font-display);
-    font-size: clamp(16rem, 40vw, 40rem);
+    font-size: clamp(7rem, 19vw, 18rem);
     font-weight: 800;
-    letter-spacing: -0.1em;
+    letter-spacing: -0.08em;
     line-height: 0.8;
     pointer-events: none;
   }

@@ -1,0 +1,174 @@
+---
+import { Image } from "astro:assets";
+import olympiaInterior from "../../assets/olympia-google-maps-photo.jpg";
+import trainingPortrait from "../../assets/olympia-man-training.png";
+import zumbaEditorial from "../../assets/zumba-editorial.png";
+import { siteRoutes } from "../../config/routes";
+import ButtonLink from "../primitives/ButtonLink.astro";
+import Container from "../primitives/Container.astro";
+import Section from "../primitives/Section.astro";
+import SectionHeading from "./SectionHeading.astro";
+
+const headingId = "inside-olympia-heading";
+---
+
+<Section class="visual-story" aria-labelledby={headingId}>
+  <Container size="wide">
+    <div class="visual-story__intro">
+      <SectionHeading
+        eyebrow="The Olympia experience"
+        heading="Serious training. Real energy."
+        headingId={headingId}
+        description="A focused floor for independent sessions, coached training, and high-energy group movement in Wadduwa."
+      />
+      <ButtonLink href={siteRoutes.contact.path} variant="secondary">
+        See the gym in person
+      </ButtonLink>
+    </div>
+
+    <div class="visual-story__grid">
+      <figure class="visual-story__feature">
+        <Image
+          src={olympiaInterior}
+          alt="Olympia Fitness Center training floor with strength equipment"
+          widths={[640, 960, 1280]}
+          sizes="(min-width: 64rem) 58vw, 94vw"
+          quality={84}
+        />
+        <figcaption>
+          <strong>Train local.</strong> Build lasting momentum.
+        </figcaption>
+      </figure>
+
+      <figure>
+        <Image
+          src={trainingPortrait}
+          alt="Male athlete training with cable equipment"
+          widths={[480, 720, 960]}
+          sizes="(min-width: 64rem) 30vw, 94vw"
+          quality={82}
+        />
+        <figcaption>Strength with purpose.</figcaption>
+      </figure>
+
+      <figure>
+        <Image
+          src={zumbaEditorial}
+          alt="Adults moving together in a Zumba fitness class"
+          widths={[480, 720, 960]}
+          sizes="(min-width: 64rem) 30vw, 94vw"
+          quality={82}
+        />
+        <figcaption>Movement with energy.</figcaption>
+      </figure>
+    </div>
+  </Container>
+</Section>
+
+<style>
+  .visual-story__intro {
+    display: grid;
+    gap: var(--space-6);
+    align-items: end;
+  }
+
+  .visual-story__intro .button-link {
+    justify-self: start;
+  }
+
+  .visual-story__grid {
+    display: grid;
+    margin-block-start: var(--space-10);
+    gap: var(--space-4);
+  }
+
+  .visual-story figure {
+    position: relative;
+    min-block-size: 21rem;
+    margin: 0;
+    overflow: hidden;
+    border: var(--border-thin) solid var(--color-border);
+    border-radius: var(--radius-lg);
+    background: var(--color-surface);
+  }
+
+  .visual-story figure::after {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(180deg, transparent 48%, rgb(3 8 7 / 82%));
+    content: "";
+    pointer-events: none;
+  }
+
+  .visual-story :global(img) {
+    inline-size: 100%;
+    block-size: 100%;
+    min-block-size: 21rem;
+    object-fit: cover;
+    transition:
+      transform 700ms var(--ease-standard),
+      filter 500ms var(--ease-standard);
+  }
+
+  .visual-story__feature :global(img) {
+    object-position: center 56%;
+  }
+
+  .visual-story figcaption {
+    position: absolute;
+    z-index: 1;
+    inset-block-end: var(--space-5);
+    inset-inline: var(--space-5);
+    max-inline-size: 26rem;
+    color: var(--color-text-muted);
+    font-size: var(--text-sm);
+  }
+
+  .visual-story figcaption strong {
+    color: var(--color-text);
+  }
+
+  @media (hover: hover) and (pointer: fine) {
+    .visual-story figure:hover :global(img) {
+      filter: contrast(1.05) saturate(1.08);
+      transform: scale(1.035);
+    }
+  }
+
+  @media (min-width: 48rem) {
+    .visual-story__intro {
+      grid-template-columns: minmax(0, 1fr) auto;
+    }
+
+    .visual-story__grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .visual-story__feature {
+      grid-column: 1 / -1;
+      min-block-size: 31rem !important;
+    }
+
+    .visual-story__feature :global(img) {
+      min-block-size: 31rem;
+    }
+  }
+
+  @media (min-width: 64rem) {
+    .visual-story__grid {
+      min-block-size: 42rem;
+      grid-template-columns: minmax(0, 1.45fr) minmax(18rem, 0.55fr);
+      grid-template-rows: repeat(2, minmax(0, 1fr));
+    }
+
+    .visual-story__feature {
+      grid-row: 1 / -1;
+      grid-column: auto;
+      min-block-size: 42rem !important;
+    }
+
+    .visual-story__feature :global(img) {
+      min-block-size: 42rem;
+    }
+  }
+</style>

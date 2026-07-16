@@ -8,15 +8,11 @@ import ClassContactActions from "../components/zumba/ClassContactActions.astro";
 import ScheduleDisplay from "../components/zumba/ScheduleDisplay.astro";
 import { siteRoutes } from "../config/routes";
 import { businessAddress, businessIdentity } from "../data/business";
-import { classContacts, zumbaSchedule } from "../data/zumba";
+import { classContacts } from "../data/zumba";
 import BaseLayout from "../layouts/BaseLayout.astro";
 import zumbaEditorial from "../assets/zumba-editorial.png";
 
 const route = siteRoutes.zumba;
-const weeklyOccurrenceCount = zumbaSchedule.reduce(
-  (total, session) => total + session.days.length,
-  0,
-);
 const description = `View the weekly Zumba class schedule and telephone enquiry options for ${businessIdentity.name} in ${businessAddress.locality}.`;
 ---
 
@@ -31,11 +27,9 @@ const description = `View the weekly Zumba class schedule and telephone enquiry 
     heading="Weekly Zumba class times."
     headingId="zumba-heading"
     description="Check the published weekly schedule, then call any listed class number directly with a class enquiry."
-    metric={String(weeklyOccurrenceCount).padStart(2, "0")}
-    metricLabel="Weekly class occurrences"
     media={zumbaEditorial}
     mediaAlt="Adults taking part in an energetic dance-fitness session"
-    mediaCaption="AI-generated editorial image"
+    mediaCaption="Move together. Feel stronger."
     accent="coral"
   >
     <Fragment slot="actions">

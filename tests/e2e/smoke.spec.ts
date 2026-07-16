@@ -19,11 +19,17 @@ for (const route of publicRoutes) {
     await expect(
       page.locator('script:not([type="application/ld+json"])'),
     ).toHaveCount(1);
-    expect(runtime).toEqual({
-      consoleErrors: [],
-      pageErrors: [],
-      thirdPartyRequests: [],
-    });
+    expect(runtime.consoleErrors).toEqual([]);
+    expect(runtime.pageErrors).toEqual([]);
+
+    if (route.path === "/contact/") {
+      expect(runtime.thirdPartyRequests).toHaveLength(1);
+      expect(runtime.thirdPartyRequests[0]).toMatch(
+        /^https:\/\/www\.google\.com\/maps\?/,
+      );
+    } else {
+      expect(runtime.thirdPartyRequests).toEqual([]);
+    }
   });
 }
 

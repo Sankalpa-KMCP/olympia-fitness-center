@@ -1,0 +1,101 @@
+---
+import { externalDestinations } from "../../config/site";
+import { businessAddress, businessIdentity } from "../../data/business";
+import { getEnabledExternalUrl } from "../../utils/external-destinations";
+import ButtonLink from "../primitives/ButtonLink.astro";
+
+const directionsUrl = getEnabledExternalUrl(externalDestinations.googleMaps);
+const mapQuery = encodeURIComponent(
+  `${businessIdentity.name}, ${businessAddress.streetAddress}, ${businessAddress.locality}, ${businessAddress.country}`,
+);
+const embedUrl = `https://www.google.com/maps?q=${mapQuery}&output=embed`;
+---
+
+<div class="location-map">
+  <iframe
+    src={embedUrl}
+    title={`Map showing ${businessIdentity.name} in ${businessAddress.locality}`}
+    loading="lazy"
+    referrerpolicy="no-referrer-when-downgrade"
+    allowfullscreen></iframe>
+  <div class="location-map__card">
+    <p>Find Olympia</p>
+    <h3>Right on Galle Road, Wadduwa.</h3>
+    <address>
+      {businessAddress.streetAddress}<br />{businessAddress.locality}, {
+        businessAddress.country
+      }
+    </address>
+    {
+      directionsUrl && (
+        <ButtonLink href={directionsUrl} target="_blank">
+          Open in Google Maps
+        </ButtonLink>
+      )
+    }
+  </div>
+</div>
+
+<style>
+  .location-map {
+    position: relative;
+    min-block-size: 31rem;
+    overflow: hidden;
+    border: var(--border-thin) solid var(--color-border);
+    border-radius: var(--radius-xl);
+    background: var(--color-surface-raised);
+    box-shadow: var(--shadow-md);
+  }
+
+  .location-map iframe {
+    inline-size: 100%;
+    block-size: 31rem;
+    border: 0;
+    filter: grayscale(0.85) invert(0.88) contrast(1.05) hue-rotate(135deg);
+  }
+
+  .location-map__card {
+    display: grid;
+    padding: var(--space-6);
+    border-block-start: var(--border-thin) solid var(--color-border);
+    background: rgb(7 16 14 / 95%);
+    gap: var(--space-3);
+  }
+
+  .location-map__card > p {
+    color: var(--color-accent);
+    font-family: var(--font-mono);
+    font-size: var(--text-xs);
+    font-weight: 700;
+    letter-spacing: var(--tracking-label);
+    text-transform: uppercase;
+  }
+
+  .location-map__card h3 {
+    font-size: var(--text-heading-sm);
+  }
+
+  .location-map__card address {
+    color: var(--color-text-muted);
+    font-style: normal;
+  }
+
+  .location-map__card .button-link {
+    margin-block-start: var(--space-2);
+    justify-self: start;
+  }
+
+  @media (min-width: 48rem) {
+    .location-map__card {
+      position: absolute;
+      inset-block-end: var(--space-5);
+      inset-inline-start: var(--space-5);
+      max-inline-size: 27rem;
+      padding: var(--space-6);
+      border: var(--border-thin) solid rgb(255 255 255 / 12%);
+      border-radius: var(--radius-lg);
+      box-shadow: var(--shadow-md);
+      backdrop-filter: blur(1rem);
+    }
+  }
+</style>

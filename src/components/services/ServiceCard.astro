@@ -4,15 +4,13 @@ import type { ServiceCategory } from "../../types/business";
 interface Props {
   service: ServiceCategory;
   description: string;
-  index: number;
 }
 
-const { service, description, index }: Props = Astro.props;
-const displayIndex = String(index + 1).padStart(2, "0");
+const { service, description }: Props = Astro.props;
 ---
 
 <article class="service-card" id={service.id}>
-  <p aria-hidden="true">{displayIndex}</p>
+  <p aria-hidden="true">Train with intent</p>
   <h3>{service.label}</h3>
   <span>{description}</span>
 </article>

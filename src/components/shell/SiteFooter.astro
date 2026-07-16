@@ -1,6 +1,5 @@
 ---
 import { businessAddress, businessIdentity } from "../../data/business";
-import { formatPostalAddress } from "../../utils/business-formatting";
 import ContactActions from "../business/ContactActions.astro";
 import HoursDisplay from "../business/HoursDisplay.astro";
 import Container from "../primitives/Container.astro";
@@ -12,7 +11,11 @@ import Container from "../primitives/Container.astro";
       <section class="site-footer__identity" aria-labelledby="footer-identity">
         <h2 id="footer-identity">{businessIdentity.name}</h2>
         <p>{businessIdentity.category}</p>
-        <address>{formatPostalAddress(businessAddress)}</address>
+        <address>
+          {businessAddress.streetAddress}, {businessAddress.locality}, {
+            businessAddress.country
+          }
+        </address>
       </section>
 
       <section aria-labelledby="footer-contact">

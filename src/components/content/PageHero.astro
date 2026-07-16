@@ -10,8 +10,6 @@ interface Props {
   heading: string;
   headingId: string;
   description: string;
-  metric: string;
-  metricLabel: string;
   media?: ImageMetadata;
   mediaAlt?: string;
   mediaCaption?: string;
@@ -23,8 +21,6 @@ const {
   heading,
   headingId,
   description,
-  metric,
-  metricLabel,
   media,
   mediaAlt = "",
   mediaCaption,
@@ -59,18 +55,13 @@ const {
               fetchpriority="high"
               quality={84}
             />
-            <figcaption>
-              <span>
-                {metric} / {metricLabel}
-              </span>
-              {mediaCaption && <small>{mediaCaption}</small>}
-            </figcaption>
+            {mediaCaption && <figcaption>{mediaCaption}</figcaption>}
           </figure>
         ) : (
           <aside class="page-hero__marker" aria-label="Page summary">
-            <p>{businessIdentity.name}</p>
-            <strong>{metric}</strong>
-            <span>{metricLabel}</span>
+            <p>Built for better training</p>
+            <strong>{businessIdentity.name}</strong>
+            <span>Strength · Fitness · Movement</span>
             <small>
               {businessAddress.locality}, {businessAddress.country}
             </small>
@@ -190,9 +181,9 @@ const {
     margin-block: var(--space-4);
     color: var(--color-text);
     font-family: var(--font-display);
-    font-size: var(--text-display);
+    font-size: clamp(2.6rem, 2rem + 3vw, 5.75rem);
     letter-spacing: var(--tracking-tight);
-    line-height: 0.8;
+    line-height: 0.9;
   }
 
   .page-hero__media {
@@ -248,21 +239,9 @@ const {
     gap: var(--space-1);
   }
 
-  .page-hero__media figcaption span,
-  .page-hero__media figcaption small {
-    font-size: var(--text-xs);
-  }
-
-  .page-hero__media figcaption span {
-    color: var(--color-coral);
-    font-family: var(--font-mono);
-    font-weight: 700;
-    letter-spacing: var(--tracking-label);
-    text-transform: uppercase;
-  }
-
-  .page-hero__media figcaption small {
+  .page-hero__media figcaption {
     color: var(--color-text-muted);
+    font-size: var(--text-xs);
   }
 
   .page-hero__marker small {

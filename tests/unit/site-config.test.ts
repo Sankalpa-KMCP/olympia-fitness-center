@@ -43,7 +43,7 @@ describe("external destination safety", () => {
     expect(getEnabledExternalUrl(malformed)).toBeUndefined();
   });
 
-  it("keeps every real external destination unverified and URL-free", () => {
+  it("keeps the supplied Google Maps destination verified and other real destinations disabled", () => {
     expect(Object.keys(externalDestinations)).toEqual([
       "whatsapp",
       "googleMaps",
@@ -52,7 +52,17 @@ describe("external destination safety", () => {
       "canonicalOrigin",
     ]);
 
-    for (const destination of Object.values(externalDestinations)) {
+    expect(externalDestinations.googleMaps).toEqual({
+      label: "Google Maps directions",
+      state: "verified",
+      url: "https://maps.app.goo.gl/kswD5wDU4rBQwje68",
+    });
+    expect(getEnabledExternalUrl(externalDestinations.googleMaps)).toBe(
+      "https://maps.app.goo.gl/kswD5wDU4rBQwje68",
+    );
+
+    for (const [key, destination] of Object.entries(externalDestinations)) {
+      if (key === "googleMaps") continue;
       expect(destination.state).toBe("unverified");
       expect(destination).not.toHaveProperty("url");
       expect(getEnabledExternalUrl(destination)).toBeUndefined();
