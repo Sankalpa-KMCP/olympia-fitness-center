@@ -115,10 +115,10 @@ test("main Contact actions use only the verified phone and email", async ({
 }) => {
   await page.goto("/contact/");
 
-  await expect(page.locator('main a[href="tel:+94703609334"]')).toHaveCount(4);
+  await expect(page.locator('main a[href="tel:+94703609334"]')).toHaveCount(3);
   await expect(
     page.locator('main a[href="mailto:olympiafitnesswadduwa@gmail.com"]'),
-  ).toHaveCount(3);
+  ).toHaveCount(2);
   await expect(page.locator("main form")).toHaveCount(0);
 });
 
