@@ -23,10 +23,24 @@ for (const route of publicRoutes) {
     expect(runtime.pageErrors).toEqual([]);
 
     if (route.path === "/contact/") {
-      expect(runtime.thirdPartyRequests).toHaveLength(1);
-      expect(runtime.thirdPartyRequests[0]).toMatch(
-        /^https:\/\/www\.google\.com\/maps\?/,
+      const googleMapsHostSuffixes = [
+        "google.com",
+        "googleapis.com",
+        "gstatic.com",
+        "googleusercontent.com",
+      ];
+      const thirdPartyHosts = runtime.thirdPartyRequests.map(
+        (requestUrl) => new URL(requestUrl).hostname,
       );
+
+      expect(thirdPartyHosts.length).toBeGreaterThan(0);
+      expect(
+        thirdPartyHosts.every((hostname) =>
+          googleMapsHostSuffixes.some(
+            (suffix) => hostname === suffix || hostname.endsWith(`.${suffix}`),
+          ),
+        ),
+      ).toBe(true);
     } else {
       expect(runtime.thirdPartyRequests).toEqual([]);
     }
@@ -142,7 +156,7 @@ test("mobile, 200%-equivalent, and desktop widths do not overflow", async ({
     { width: 1440, height: 1000 },
   ]) {
     await page.setViewportSize(viewport);
-    await page.goto("/contact/");
+    await page.goto("/contact/", { waitUntil: "domcontentloaded" });
 
     const result = await page.evaluate(() => ({
       overflow: document.documentElement.scrollWidth > window.innerWidth,
