@@ -47,6 +47,19 @@ for (const route of publicRoutes) {
   });
 }
 
+test("home visual story shows only the gym floor photo", async ({ page }) => {
+  await page.goto("/");
+
+  const story = page.locator(".visual-story");
+
+  await expect(
+    story.getByRole("img", {
+      name: "Olympia Fitness Center training floor with strength equipment",
+    }),
+  ).toBeVisible();
+  await expect(story.getByRole("img")).toHaveCount(1);
+});
+
 test("custom and disabled routes return the custom 404", async ({ page }) => {
   for (const path of ["/missing-s9/", "/gallery/", "/privacy/"]) {
     const response = await page.goto(path);
